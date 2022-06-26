@@ -1,8 +1,11 @@
 import React from 'react';
 
-const Login = () => {
+const Login = ({onLogin}) => {
+    const handleSubmit = () => {
+        onLogin();
+    }
     return (
-        <div className>
+        <div onSubmit={handleSubmit} className="login">
             Login page
         </div>
     )
