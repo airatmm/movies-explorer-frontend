@@ -1,0 +1,15 @@
+.about-section {
+    display: flex;
+    max-width: calc(1280px - 140px);
+    height: 100%;
+    width: 100%;
+}
+
+.about-section__title {
+    font-size: 22px;
+    line-height: 27px;
+    /* identical to box height */
+    letter-spacing: -0.04em;
+    color: #000;
+    border-bottom: 1px solid #000;
+}

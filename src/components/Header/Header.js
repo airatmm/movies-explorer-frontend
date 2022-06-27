@@ -10,7 +10,7 @@ function Header({loggedIn}) {
                 <Link to="/" className="header__logo-link">
                     <img className="header__logo" src={logo} alt="Логотип"/>
                 </Link>
-                <HeaderNavigation loggedIn={loggedIn} />
+                <HeaderNavigation /*loggedIn={loggedIn}*/ />
             </div>
         </header>
     );

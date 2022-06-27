@@ -9,6 +9,7 @@ import Profile from '../Profile/Profile';
 import Login from '../Login/Login';
 import Register from '../Register/Register';
 import Header from "../Header/Header";
+import Main from '../Main/Main';
 
 const App = () => {
     // const [currentUser, setCurrentUser] = useState({});
@@ -24,6 +25,7 @@ const App = () => {
             <Header
                 loggedIn={loggedIn}
             />
+            <Main />
             <Routes>
                 <Route path="/" element={<AboutProject />}/>
                 <Route path="/movies" element={<Movies />}/>

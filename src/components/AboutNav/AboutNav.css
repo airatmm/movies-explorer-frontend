@@ -1,0 +1,30 @@
+.about-nav {
+    margin-bottom: 30px;
+}
+
+.about-nav__menu {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    list-style: none;
+}
+
+.about-nav__menu-link {
+    background: #E8E8E8;
+    border-radius: 10px;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 1.33;
+    text-align: center;
+    color: #FFFFFF;
+    padding: 10px 23px;
+    text-decoration: none;
+    transition: background .5s ease;
+}
+
+.about-nav__menu-link:hover {
+    background: #ccc;
+}

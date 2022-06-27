@@ -7,7 +7,7 @@ const Navigation = (
     }
 ) => {
     return (
-        <nav className={`${name} navigation`}>
+        <nav className={`navigation ${name}`}>
             {children}
         </nav>
     );
