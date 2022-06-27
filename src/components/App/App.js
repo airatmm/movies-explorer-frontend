@@ -2,7 +2,6 @@ import './App.css';
 import { Route, Routes } from 'react-router-dom';
 // import { CurrentUserContext } from '../../contexts/CurrentUserContext';
 import {useState} from 'react';
-import AboutProject from '../AboutProject/AboutProject';
 import Movies from '../Movies/Movies';
 import SavedMovies from '../SavedMovies/SavedMovies';
 import Profile from '../Profile/Profile';
@@ -25,9 +24,8 @@ const App = () => {
             <Header
                 loggedIn={loggedIn}
             />
-            <Main />
             <Routes>
-                <Route path="/" element={<AboutProject />}/>
+                <Route path="/" element={<Main />}/>
                 <Route path="/movies" element={<Movies />}/>
                 <Route path="/saved-movies" element={<SavedMovies />}/>
                 <Route path="/profile" element={<Profile />}/>

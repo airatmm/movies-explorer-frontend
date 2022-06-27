@@ -1,7 +1,7 @@
 .app {
   font: normal 14px/26px 'Inter', 'Arial', sans-serif;
-  background-color: #000;
-  color: #fff;
+  background-color: #fff;
+  color: #000;
   margin: 0 auto;
   text-rendering: optimizeLegibility;
   min-width: 320px;
