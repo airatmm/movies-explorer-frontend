@@ -1,0 +1,62 @@
+.project__stage {
+    display: grid;
+    grid-template: repeat(1, 1fr) / repeat(2, 1fr);
+    gap: 40px;
+}
+
+.project__stage_item{
+    margin-top: 70px;
+}
+
+.project__subtitle {
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 1.2;
+    letter-spacing: -0.04em;
+    padding: 0;
+    margin: 0 0 26px 0;
+}
+
+.project__description {
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 1.43;
+    padding: 0;
+    margin: 0;
+}
+
+.project__progress {
+    margin: 110px 0;
+    display: grid;
+    grid-template-rows: 36px 36px;
+    grid-template-columns: minmax(140px, 1fr) 4fr;
+    font-size: 14px;
+}
+
+.project__progress-item{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 1.21;
+    text-align: center;
+    padding: 0;
+    margin: 0;
+}
+
+.project__progress-item_backend {
+    background: #000;
+    color: #fff;
+}
+
+.project__progress-item_frontend {
+
+    background: #F2F2F2;
+}
+
+.project__progress-item_title {
+    font-weight: 500;
+    text-align: center;
+    color: #A0A0A0;
+}
