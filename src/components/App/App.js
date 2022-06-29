@@ -9,6 +9,7 @@ import Login from '../Login/Login';
 import Register from '../Register/Register';
 import Header from "../Header/Header";
 import Main from '../Main/Main';
+import Footer from '../Footer/Footer';
 
 const App = () => {
     // const [currentUser, setCurrentUser] = useState({});
@@ -32,6 +33,7 @@ const App = () => {
                 <Route path="/signin" element={<Login onLogin={handleLogin} />}/>
                 <Route path="/signup" element={<Register />}/>
             </Routes>
+            <Footer />
         </div>
     // </CurrentUserContext.Provider>
 )

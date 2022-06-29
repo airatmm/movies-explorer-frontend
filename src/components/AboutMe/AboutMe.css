@@ -1,0 +1,53 @@
+.me__content {
+    display: flex;
+    margin: 66px 0 0;
+    gap: 270px;
+}
+
+.me__profile {
+    display: flex;
+    flex-direction: column;
+}
+
+.me__name {
+    padding: 0;
+    margin: 0;
+    font-weight: 400;
+    font-size: 50px;
+    line-height: 1.16;
+    letter-spacing: -0.04em;
+
+}
+.me__job {
+    padding: 0;
+    margin: 18px 0 0;
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 1.11;
+    mix-blend-mode: normal;
+}
+
+.me__description {
+    padding: 0;
+    margin: 26px 0 0;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 1.57;
+    mix-blend-mode: normal;
+}
+.me__links {
+    display: flex;
+    margin: 99px 0 0;
+    padding: 0;
+    list-style: none;
+    gap: 20px;
+}
+
+.me__link {
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 17px;
+    /* identical to box height */
+    text-decoration: none;
+    color: #000;
+}
