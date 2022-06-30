@@ -19,6 +19,7 @@ const App = () => {
         setLoggedIn(true);
     };
 
+
     return (
         // <CurrentUserContext.Provider value={currentUser}>
         <div className="app">
@@ -27,7 +28,7 @@ const App = () => {
             />
             <Routes>
                 <Route path="/" element={<Main />}/>
-                <Route path="/movies" element={<Movies />}/>
+                <Route path="/movies" element={<Movies />} />
                 <Route path="/saved-movies" element={<SavedMovies />}/>
                 <Route path="/profile" element={<Profile />}/>
                 <Route path="/signin" element={<Login onLogin={handleLogin} />}/>

@@ -4,9 +4,4 @@
     max-height: 100%;
 }
 
-.movies__list {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
-    gap: 30px;
-    list-style: none;
-}
+
