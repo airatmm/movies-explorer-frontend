@@ -19,7 +19,6 @@ const App = () => {
         setLoggedIn(true);
     };
 
-
     return (
         // <CurrentUserContext.Provider value={currentUser}>
         <div className="app">

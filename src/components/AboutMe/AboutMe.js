@@ -1,6 +1,6 @@
 import './AboutMe.css';
 import AboutSection from '../AboutSection/AboutSection';
-import aboutMe from '../../images/aboutme.svg';
+import aboutMe from '../../images/aboutme.png';
 
 const AboutMe = () => {
     return (

@@ -1,8 +1,13 @@
 import './MoreButton.css';
 
-const MoreButton = () => {
+const MoreButton = ({handleMoreButtonClick}) => {
     return (
-        <button className="movies__button-more">Еще</button>
+        <button
+            className="movies__button-more"
+            onClick={handleMoreButtonClick}
+        >
+            Еще
+        </button>
     )
 }
 
