@@ -20,6 +20,7 @@ const MoviesCardList = () => {
             .then((movies) => {
                 setMovies(movies);
                 setInitialMovies(12);
+                setIsLoading(true)
                 setMoreMovies(6);
                 setIsLoading(false)
                 console.log("Movies loading OK!");

@@ -12,12 +12,11 @@ const SearchForm = () => {
                     minLength="1"
                     name="search"
                     placeholder="Фильм"
-                    // autofocus={true}
                     id="search__form"
                     required
-                    // onChange={handleNameChange}
+                    // onChange={handleShortMovieChange}
                 />
-                <button type="submit" className="search__button"><i className="fa fa-search"/></button>
+                <button type="submit" className="search__button link"><i className="fa fa-search"/></button>
                 </fieldset>
                 <FilterCheckbox />
             </form>

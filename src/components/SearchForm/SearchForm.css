@@ -22,6 +22,12 @@
     padding: 0;
 }
 
+.search__form-fieldset input[type="search"] {
+    font-size: 22px; /* 1 */
+    line-height: inherit; /* 1 */
+    margin: 0; /* 2 */
+}
+
 .search__form-input::placeholder {
     font-weight: 500;
     font-size: 28px;
@@ -39,4 +45,5 @@
     border: none;
     border-radius: 48px;
     background: url(../../images/search-icon.svg) #000 no-repeat center;
+    cursor: pointer;
 }
