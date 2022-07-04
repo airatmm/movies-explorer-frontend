@@ -1,5 +1,6 @@
 import './PageNotFound.css';
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
+import Section from "../Section/Section";
 
 const PageNotFound = () => {
     const navigate = useNavigate();
@@ -7,13 +8,13 @@ const PageNotFound = () => {
             navigate(-1);
     }
     return (
-        <section className="page-not-found">
+        <Section name="page-not-found">
             <div className="page-not-found__content">
                 <p className="page-not-found__status">404</p>
                 <p className="page-not-found__text">Страница не найдена</p>
-                    <button className="page-not-found__link link" onClick={handleGoBack}>Назад</button>
+                <button className="page-not-found__button link" onClick={handleGoBack}>Назад</button>
             </div>
-        </section>
+        </Section>
     )
 }
 

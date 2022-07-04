@@ -1,13 +1,14 @@
 import './SavedMovies.css';
 import SearchForm from "../SearchForm/SearchForm";
 import MoviesCardList from "../MoviesCardList/MoviesCardList";
+import Section from "../Section/Section";
 
 const SavedMovies = () => {
     return (
-        <section className="movies movies__saved">
+        <Section name="movies-saved">
             <SearchForm />
             <MoviesCardList />
-        </section>
+        </Section>
     )
 }
 

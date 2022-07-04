@@ -1,15 +1,6 @@
-.page-not-found {
-    display: flex;
-    flex-direction: column;
-    max-width: calc(1280px - 140px);
-    max-height: 100%;
-    width: 100%;
-    margin: 246px auto 0;
-}
-
 .page-not-found__content {
     max-width: calc(1280px - 2 * 440px);
-    margin: 0 auto;
+    margin: 246px auto 0;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -31,7 +22,7 @@
     padding: 0;
 }
 
-.page-not-found__link {
+.page-not-found__button {
     font-weight: 400;
     font-size: 14px;
     line-height: 17px;

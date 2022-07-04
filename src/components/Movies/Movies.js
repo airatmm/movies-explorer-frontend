@@ -2,14 +2,15 @@ import './Movies.css';
 // import Preloader from '../Preloader/Preloader';
 import SearchForm from '../SearchForm/SearchForm';
 import MoviesCardList from "../MoviesCardList/MoviesCardList";
+import Section from "../Section/Section";
 
 
 const Movies = () => {
     return (
-        <section className="movies">
+        <Section name="movies">
             <SearchForm />
             <MoviesCardList />
-        </section>
+        </Section>
     )
 }
 

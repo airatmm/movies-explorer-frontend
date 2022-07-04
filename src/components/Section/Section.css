@@ -1,0 +1,8 @@
+.section {
+    display: flex;
+    flex-direction: column;
+    max-width: calc(1280px - 140px);
+    max-height: 100%;
+    width: 100%;
+    margin: 0 auto;
+}
