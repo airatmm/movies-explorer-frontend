@@ -17,7 +17,7 @@ const Profile = () => {
                             name="name"
                             id="input-profile"
                             required
-                            value="Виталий"
+                           // value="Виталий"
                         />
                         <span className="profile__input-error"/>
                     </label>
@@ -31,13 +31,13 @@ const Profile = () => {
                             name="email"
                             id="input-email"
                             required
-                            value="pochta@yandex.ru"
+                            //value="pochta@yandex.ru"
                         />
                         <span className="profile__input-error"/>
                     </label>
                 </fieldset>
                 <button type="submit" className="profile__edit-button link" >Редактировать</button>
-                <button type="submit" className="profile__signout-button" >Выйти из аккаунта</button>
+                <button type="submit" className="profile__signout-button link" >Выйти из аккаунта</button>
             </form>
         </Section>
     )

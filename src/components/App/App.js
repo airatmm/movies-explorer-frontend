@@ -22,22 +22,22 @@ const App = () => {
 
     return (
         // <CurrentUserContext.Provider value={currentUser}>
-        <div className="app">
-            <Header
-                loggedIn={loggedIn}
-            />
-            <Routes>
-                <Route path="/" element={<Main />}/>
-                <Route path="/movies" element={<Movies />} />
-                <Route path="/saved-movies" element={<SavedMovies />}/>
-                <Route path="/profile" element={<Profile />}/>
-                <Route path="/signin" element={<Login onLogin={handleLogin} />}/>
-                <Route path="/signup" element={<Register />}/>
-                <Route path="*" element={<PageNotFound />}/>
-            </Routes>
-            <Footer />
-        </div>
-    // </CurrentUserContext.Provider>
+            <div className="app">
+                <Header
+                    loggedIn={loggedIn}
+                />
+                <Routes>
+                    <Route path="/" element={<Main />}/>
+                    <Route path="/movies" element={<Movies />} />
+                    <Route path="/saved-movies" element={<SavedMovies />}/>
+                    <Route path="/profile" element={<Profile />}/>
+                    <Route path="/signin" element={<Login onLogin={handleLogin} />}/>
+                    <Route path="/signup" element={<Register />}/>
+                    <Route path="*" element={<PageNotFound />}/>
+                </Routes>
+                <Footer />
+            </div>
+        // </CurrentUserContext.Provider>
 )
 }
 

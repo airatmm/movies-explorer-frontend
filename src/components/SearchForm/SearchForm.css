@@ -19,9 +19,9 @@
 }
 
 .search__form-fieldset input[type="search"] {
-    font-size: 22px; /* 1 */
-    line-height: inherit; /* 1 */
-    margin: 0; /* 2 */
+    font-size: 22px;
+    line-height: inherit;
+    margin: 0;
 }
 
 .search__form-input::placeholder {
