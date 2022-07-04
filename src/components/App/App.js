@@ -10,6 +10,7 @@ import Register from '../Register/Register';
 import Header from "../Header/Header";
 import Main from '../Main/Main';
 import Footer from '../Footer/Footer';
+import PageNotFound from "../PageNotFound/PageNotFound";
 
 const App = () => {
     // const [currentUser, setCurrentUser] = useState({});
@@ -32,6 +33,7 @@ const App = () => {
                 <Route path="/profile" element={<Profile />}/>
                 <Route path="/signin" element={<Login onLogin={handleLogin} />}/>
                 <Route path="/signup" element={<Register />}/>
+                <Route path="*" element={<PageNotFound />}/>
             </Routes>
             <Footer />
         </div>
