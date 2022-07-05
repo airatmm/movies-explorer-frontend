@@ -1,5 +1,5 @@
 .techs__wrap {
-    max-width: calc(1280px - 140px);
+    max-width: calc(100% - 140px);
     margin: 0 auto;
     display: flex;
     flex-direction: column;
@@ -8,7 +8,7 @@
 }
 
 .about-section__title-techs{
-    max-width: calc(1280px - 140px);
+    max-width: calc(100% - 140px);
     margin: 0 auto;
 }
 .about-section__techs {

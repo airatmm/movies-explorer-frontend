@@ -1,8 +1,14 @@
 .section {
     display: flex;
     flex-direction: column;
-    max-width: calc(1280px - 140px);
+    max-width: calc(100% - 140px);
     max-height: 100%;
     width: 100%;
     margin: 0 auto;
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+    .section {
+        max-width: calc(100% - 40px);
+    }
 }

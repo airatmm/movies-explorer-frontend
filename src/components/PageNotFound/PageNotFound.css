@@ -1,5 +1,5 @@
 .page-not-found__content {
-    max-width: calc(1280px - 2 * 440px);
+    max-width: calc(100%px - 2 * 440px);
     margin: 246px auto 0;
     display: flex;
     flex-direction: column;

@@ -51,3 +51,9 @@
     text-decoration: none;
     color: #000;
 }
+
+.me__photo {
+    width: 270px;
+    height: 327px;
+    object-fit: contain;
+}
