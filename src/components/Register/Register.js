@@ -26,7 +26,7 @@ const Register = () => {
 
         <label className="form__label">E-mail</label>
             <input
-                className="form__input"
+                className="form__input form__input-email"
                 type="email"
                 minLength="3"
                 maxLength="50"

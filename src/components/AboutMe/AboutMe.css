@@ -1,7 +1,14 @@
 .me__content {
     display: flex;
+    align-items: flex-start;
     margin: 66px 0 0;
     gap: 270px;
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+    .me__content {
+        gap: 49px;
+    }
 }
 
 .me__profile {
@@ -18,6 +25,14 @@
     letter-spacing: -0.04em;
 
 }
+
+@media (min-width: 768px) and (max-width: 1023px) {
+    .me__name {
+        font-size: 40px;
+        line-height: 1;
+    }
+}
+
 .me__job {
     padding: 0;
     margin: 18px 0 0;
@@ -25,6 +40,14 @@
     font-size: 18px;
     line-height: 1.11;
     mix-blend-mode: normal;
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+    .me__job {
+        margin: 16px 0 0;
+        font-size: 12px;
+        line-height: 1.5;
+    }
 }
 
 .me__description {
@@ -35,12 +58,31 @@
     line-height: 1.57;
     mix-blend-mode: normal;
 }
+
+@media (min-width: 768px) and (max-width: 1023px) {
+    .me__description {
+        margin: 20px 0 0;
+        font-size: 12px;
+        line-height: 1.5;
+    }
+}
+
 .me__links {
     display: flex;
     margin: 99px 0 0;
     padding: 0;
     list-style: none;
     gap: 20px;
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+    .me__links {
+        margin: 87px 0 0;
+    }
+}
+
+.me__links-item {
+    display: flex;
 }
 
 .me__link {
@@ -52,8 +94,21 @@
     color: #000;
 }
 
+@media (min-width: 768px) and (max-width: 1023px) {
+    .me__link {
+        font-size: 14px;
+    }
+}
+
 .me__photo {
-    width: 270px;
-    height: 327px;
+    max-width: 270px;
+    width: 100%;
     object-fit: contain;
+    border-radius: 10px;
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+    .me__photo {
+        max-width: 255px;
+    }
 }

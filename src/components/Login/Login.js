@@ -11,16 +11,16 @@ const Login = () => {
                 url="/signup"
                 formLinkText="Регистрация"
             >
-                <label className="form__label">Имя</label>
+                <label className="form__label">E-mail</label>
                 <input
-                    className="form__input"
-                    type="text"
-                    minLength="2"
-                    maxLength="30"
-                    name="name"
-                    id="input-form"
+                    className="form__input form__input-email"
+                    type="email"
+                    minLength="3"
+                    maxLength="50"
+                    name="email"
+                    id="input-email"
                     required
-                    // value="Виталий"
+                    //value="pochta@yandex.ru"
                 />
                 <span className="form__input-error"/>
 
