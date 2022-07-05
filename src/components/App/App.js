@@ -14,7 +14,7 @@ import PageNotFound from "../PageNotFound/PageNotFound";
 
 const App = () => {
     // const [currentUser, setCurrentUser] = useState({});
-    const [loggedIn, setLoggedIn] = useState(true);
+    const [loggedIn, setLoggedIn] = useState(false);
 
     const handleLogin = () => {
         setLoggedIn(true);
