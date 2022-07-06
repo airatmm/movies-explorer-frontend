@@ -7,7 +7,7 @@ const HeaderFooterLayout = ({loggedIn}) => {
     return (
 
         <>
-            <Header loggedIn={loggedIn} />
+            <Header loggedIn={!loggedIn} />
             <Outlet />
             <Footer />
         </>

@@ -1,10 +1,9 @@
 import './SearchForm.css';
 import FilterCheckbox from "../FilterCheckbox/FilterCheckbox";
-import Section from "../Section/Section";
 
 const SearchForm = () => {
     return (
-        <Section name="search">
+        <section className="section__search">
             <form className="search__form" noValidate>
                 <fieldset className="search__form-fieldset">
                 <input
@@ -21,7 +20,7 @@ const SearchForm = () => {
                 </fieldset>
                 <FilterCheckbox />
             </form>
-        </Section>
+        </section>
 
     )
 }

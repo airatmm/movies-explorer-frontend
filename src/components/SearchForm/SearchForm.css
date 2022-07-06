@@ -1,5 +1,12 @@
-.search__form {
-    margin: 0 0 33px;
+.section__search {
+    width: 100%;
+    margin: 0 auto 48px;
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+    .section__search {
+        margin: 0 auto 60px;
+    }
 }
 
 .search__form-fieldset {

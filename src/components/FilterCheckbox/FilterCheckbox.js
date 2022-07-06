@@ -2,12 +2,12 @@ import './FilterCheckbox.css';
 
 const FilterCheckbox = () => {
     return (
-        <label htmlFor="search__form-checkbox_input" className="search__form-checkbox_label">
+        <label htmlFor="search-form-checkbox" className="search__form-checkbox_label link">
         <input
             className="search__form-checkbox_input"
             type="checkbox"
-            id="search__form-checkbox_input"
-            name="search__form-checkbox_input"
+            id="search-form-checkbox"
+            name="search-form-checkbox"
         />
         <span className="search__form-checkbox_switch"/>
         <span className="search__form-checkbox_text">Короткометражки</span>

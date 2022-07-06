@@ -1,11 +1,18 @@
 .section__promo {
     background-color: #F5F5F5;
-    height: 100%;
+    max-width: calc(100% - 80px);
     min-height: 493px;
     border-radius: 10px;
     align-items: center;
     justify-content: space-between;
 }
+
+@media (min-width: 768px) and (max-width: 1023px) {
+    .section__promo {
+        max-width: calc(100% - 40px);
+    }
+}
+
 .promo__title {
     font-style: normal;
     font-weight: 400;

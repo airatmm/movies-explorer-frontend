@@ -5,24 +5,25 @@
     align-items: center;
     width: 100%;
     height: 74px;
-    max-width: 1280px;
+    max-width: calc(100% - 140px);
     max-height: 100%;
     margin-bottom: 20px;
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+    .header {
+        max-width: calc(100% - 60px);
+    }
 }
 
 .header__content{
     display: flex;
     justify-content: space-between;
-    max-width: calc(100% - 140px);
     width: 100%;
     margin: 0 auto;
 }
 
-@media (min-width: 768px) and (max-width: 1023px) {
-    .header__content {
-        max-width: calc(100% - 40px);
-    }
-}
+
 
 .header__logo-link {
     display: flex;

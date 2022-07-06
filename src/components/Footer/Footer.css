@@ -1,26 +1,24 @@
 .footer{
-    max-width: 1280px;
+    max-width: calc(100% - 140px);
     max-height: 100%;
     width: 100%;
     margin: 79px 0 0;
 }
 
-.footer__wrap {
-    max-width: calc(100% - 140px);
-    margin: 0 auto;
-}
-
 @media (min-width: 768px) and (max-width: 1023px) {
-    .footer__wrap {
+    .footer {
         max-width: calc(100% - 60px);
     }
+}
+
+.footer__wrap {
+    margin: 0 auto;
 }
 
 .footer__description {
     font-weight: 400;
     font-size: 13px;
     line-height: 16px;
-    /* identical to box height */
     text-align: center;
     color: #A0A0A0;
     margin: 0;
