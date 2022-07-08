@@ -25,6 +25,12 @@
     gap: 10px;
 }
 
+@media (min-width: 320px) and (max-width: 767px) {
+    .header__navigation_no-auth {
+        gap: 2px;
+    }
+}
+
 .navigation__Link_no-auth {
     font-weight: 500;
     font-size: 12px;

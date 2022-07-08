@@ -10,7 +10,14 @@
 @media (min-width: 768px) and (max-width: 1023px) {
     .about-section {
         max-width: calc(100% - 100px);
-        margin: 90px auto 0 ;
+        margin: 90px auto 0;
+    }
+}
+
+@media (min-width: 320px) and (max-width: 767px) {
+    .about-section {
+        max-width: calc(100% - 2 * 18px);
+        margin: 70px auto 0;
     }
 }
 
@@ -24,4 +31,13 @@
     margin: 0;
     padding: 0 0 23px 0;
     width: 100%;
+}
+
+@media (min-width: 320px) and (max-width: 767px) {
+    .about-section__title {
+        padding: 0 0 28px 0;
+        font-size: 18px;
+        line-height: 22px;
+
+    }
 }

@@ -11,21 +11,6 @@
     z-index: 999;
 }
 
-/*@media screen and (max-width: 768px) {*/
-/*    .hamburger {*/
-/*        width: 22px;*/
-/*        height: 22px;*/
-/*        display: block;*/
-/*        border: none;*/
-/*        background-color: transparent;*/
-/*        padding: 0;*/
-/*        margin: 0;*/
-/*        cursor: pointer;*/
-/*        outline: none;*/
-/*        z-index: 999;*/
-/*    }*/
-/*}*/
-
 .hamburger:after,
 .hamburger:before,
 .hamburger span {

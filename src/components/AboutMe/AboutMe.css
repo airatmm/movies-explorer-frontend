@@ -11,6 +11,15 @@
     }
 }
 
+@media (min-width: 320px) and (max-width: 767px) {
+    .me__content {
+        flex-direction: column-reverse;
+        align-items: center;
+        margin: 60px 0 0;
+        gap: 40px;
+    }
+}
+
 .me__profile {
     display: flex;
     flex-direction: column;
@@ -33,6 +42,13 @@
     }
 }
 
+@media (min-width: 320px) and (max-width: 767px) {
+    .me__name {
+        font-size: 30px;
+        line-height: 1.2;
+    }
+}
+
 .me__job {
     padding: 0;
     margin: 18px 0 0;
@@ -47,6 +63,14 @@
         margin: 16px 0 0;
         font-size: 12px;
         line-height: 1.5;
+    }
+}
+
+@media (min-width: 320px) and (max-width: 767px) {
+    .me__job {
+        margin: 20px 0 0;
+        font-size: 11px;
+        line-height: 1.45;
     }
 }
 
@@ -67,6 +91,14 @@
     }
 }
 
+@media (min-width: 320px) and (max-width: 767px) {
+    .me__description {
+        margin: 20px 0 0;
+        font-size: 11px;
+        line-height: 1.45;
+    }
+}
+
 .me__links {
     display: flex;
     margin: 99px 0 0;
@@ -78,6 +110,12 @@
 @media (min-width: 768px) and (max-width: 1023px) {
     .me__links {
         margin: 87px 0 0;
+    }
+}
+
+@media (min-width: 320px) and (max-width: 767px) {
+    .me__links {
+        margin: 40px 0 0;
     }
 }
 
@@ -112,3 +150,9 @@
         max-width: 255px;
     }
 }
+@media (min-width: 320px) and (max-width: 767px) {
+    .me__photo {
+        max-width: 292px;
+    }
+}
+

@@ -17,6 +17,13 @@
     padding: 6px 7px;
 }
 
+@media (min-width: 320px) and (max-width: 767px) {
+    .movie__button-save {
+        right: 10px;
+        top: 10px;
+    }
+}
+
 .movie__item:hover .movie__button-save {
     display: flex;
 }
@@ -60,13 +67,33 @@
     margin: 14px 14px 0;
 }
 
+@media (min-width: 768px) and (max-width: 1023px) {
+    .movie__content {
+        margin: 25px 0 0;
+    }
+}
+
+@media (min-width: 320px) and (max-width: 767px) {
+    .movie__content {
+        margin: 16px 0 0;
+    }
+}
+
 .movie__caption {
     font-weight: 500;
     font-size: 13px;
-    line-height: 16px;
+    line-height: 1.23;
     margin: 0;
     padding: 0;
 }
+
+@media (min-width: 320px) and (max-width: 767px) {
+    .movie__caption {
+        font-size: 12px;
+        line-height: 1.25;
+    }
+}
+
 
 .movie__duration {
     font-weight: 400;

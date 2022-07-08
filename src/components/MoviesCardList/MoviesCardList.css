@@ -23,6 +23,7 @@
     .movies__list {
         grid-template-columns: repeat(1, 300px);
         column-gap: 39px;
+        margin: 40px auto 63px;
     }
 }
 

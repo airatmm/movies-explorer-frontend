@@ -16,17 +16,8 @@
     }
 }
 
-/*.header__content{*/
-/*    display: flex;*/
-/*    justify-content: space-between;*/
-/*    width: 100%;*/
-/*    margin: 0 auto;*/
-/*}*/
-
-
-/*@media screen and (max-width: 768px) {*/
-/*    .header__logo {*/
-/*        width: 103.74px;*/
-/*        height: 24.4px;*/
-/*    }*/
-/*}*/
+@media (min-width: 320px) and (max-width: 767px) {
+    .header {
+        max-width: calc(100% - 2 * 14px);
+    }
+}

@@ -1,10 +1,16 @@
 .profile__form {
     display: flex;
     flex-direction: column;
-    max-width: calc(100% - 2 * 435px);
+    max-width: 410px;
     margin: 74px auto 0;
     align-items: center;
     width: 100%;
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+    .profile__form {
+        margin: 236px auto 269px;
+    }
 }
 
 .profile__title {
@@ -23,6 +29,12 @@
     position: relative;
     margin: 123px 0 0;
     padding: 0;
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+    .profile__fieldset {
+        margin: 96px 0 0;
+    }
 }
 
 .profile__label {
@@ -71,6 +83,12 @@
     padding: 0;
     border: none;
     background-color: transparent;
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+    .profile__edit-button {
+        margin: 210px 0 0;
+    }
 }
 
 .profile__signout-button {

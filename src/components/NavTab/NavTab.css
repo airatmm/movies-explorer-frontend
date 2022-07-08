@@ -12,6 +12,10 @@
 }
 
 .nav-tab__menu-link {
+    width: 96px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     background: #E8E8E8;
     border-radius: 10px;
     font-style: normal;
@@ -20,9 +24,19 @@
     line-height: 1.33;
     text-align: center;
     color: #FFFFFF;
-    padding: 10px 23px;
+    padding: 10px 0;
     text-decoration: none;
     transition: background .5s ease;
+}
+
+@media (min-width: 320px) and (max-width: 767px) {
+    .nav-tab__menu-link {
+        border-radius: 6px;
+        font-size: 10px;
+        line-height: 1.6;
+        width: 82px;
+        padding: 5px 0;
+    }
 }
 
 .nav-tab__menu-link:hover {

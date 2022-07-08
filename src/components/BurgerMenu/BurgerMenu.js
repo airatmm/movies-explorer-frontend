@@ -5,33 +5,38 @@ import Account from "../Account/Account";
 
 const setActiveBurgerLink = ({isActive}) => isActive ? "burger-menu__link burger-menu__link_is-active" : "burger-menu__link";
 
-const BurgerMenu = ({ isOpen }) => {
+const BurgerMenu = ({ isOpen, onClose }) => {
     return (
         <div className={`burger-menu ${isOpen ? 'burger-menu_is-open' : ''}`}>
-            {/*<Hamburger onClick={closeHandler}/>*/}
-            <div className="burger-menu__link-list">
-                <NavLink
-                    to="/"
-                    className={setActiveBurgerLink}
-                >
-                    Главная
-                </NavLink>
+            <div className="burger-menu_content">
+                {/*<Hamburger onClick={closeHandler}/>*/}
+                <div className="burger-menu__link-list">
+                    <NavLink
+                        to="/"
+                        className={setActiveBurgerLink}
+                        onClick={onClose}
+                    >
+                        Главная
+                    </NavLink>
 
-                <NavLink
-                    to="/movies"
-                    className={setActiveBurgerLink}
-                >
-                    Фильмы
-                </NavLink>
+                    <NavLink
+                        to="/movies"
+                        className={setActiveBurgerLink}
+                        onClick={onClose}
+                    >
+                        Фильмы
+                    </NavLink>
 
-                <NavLink
-                    to="/saved-movies"
-                    className={setActiveBurgerLink}
-                >
-                    Сохранённые фильмы
-                </NavLink>
+                    <NavLink
+                        to="/saved-movies"
+                        className={setActiveBurgerLink}
+                        onClick={onClose}
+                    >
+                        Сохранённые фильмы
+                    </NavLink>
+                </div>
+                <Account onClose={onClose} />
             </div>
-            <Account />
         </div>
     );
 }

@@ -6,7 +6,7 @@ import Account from "../Account/Account";
 import BurgerMenu from "../BurgerMenu/BurgerMenu";
 import Hamburger from "../Hamburger/Hamburger";
 
-function Header({ loggedIn, isMenuOpen }) {
+function Header({ loggedIn }) {
     // const headerClassName = `header ${loggedIn ? 'header__account' : 'header header__auth'}`;
     const [width, setWidth] = useState(window.innerWidth);
 
@@ -23,6 +23,7 @@ function Header({ loggedIn, isMenuOpen }) {
 
     const [isOpen, setIsOpen] = useState(false);
     const handleBurgerMenuClick = () => setIsOpen(!isOpen);
+    const closeBurgerMenuLink = () => setIsOpen(false)
 
     return (
             <header className="header">
@@ -34,13 +35,13 @@ function Header({ loggedIn, isMenuOpen }) {
                     (
                         <>
                         <HeaderNavigation loggedIn={loggedIn}/>
-                        <Account />
+                        <Account onCick={closeBurgerMenuLink}  />
                         </>
                     )
                 }
                 {!loggedIn && <HeaderNavigation loggedIn={loggedIn}/> }
 
-                {loggedIn && <BurgerMenu isOpen={isOpen} onHamburgerClick={handleBurgerMenuClick} />}
+                {loggedIn && <BurgerMenu onClose={closeBurgerMenuLink} isOpen={isOpen} onHamburgerClick={handleBurgerMenuClick} />}
 
             </header>
     );

@@ -18,7 +18,10 @@ const SearchForm = () => {
                 />
                 <button type="submit" className="search__button link" />
                 </fieldset>
+                <div className="search__form_short">
                 <FilterCheckbox />
+                    <p className="search__form_text">Короткометражки</p>
+                </div>
             </form>
         </section>
 
