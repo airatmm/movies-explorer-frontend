@@ -12,8 +12,8 @@ const PageNotFound = () => {
             <div className="page-not-found__content">
                 <p className="page-not-found__status">404</p>
                 <p className="page-not-found__text">Страница не найдена</p>
-                <button className="page-not-found__button link" onClick={handleGoBack}>Назад</button>
             </div>
+            <button className="page-not-found__button link" onClick={handleGoBack}>Назад</button>
         </Section>
     )
 }

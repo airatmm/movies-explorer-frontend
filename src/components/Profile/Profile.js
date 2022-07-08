@@ -36,9 +36,11 @@ const Profile = () => {
                         <span className="profile__input-error"/>
                     </label>
                 </fieldset>
-                <button type="submit" className="profile__edit-button link" >Редактировать</button>
-                <button type="submit" className="profile__signout-button link" >Выйти из аккаунта</button>
             </form>
+            <div className="profile__button">
+                <button type="submit" className="profile__button_edit link" >Редактировать</button>
+                <button type="submit" className="profile__button_signout link" >Выйти из аккаунта</button>
+            </div>
         </Section>
     )
 }

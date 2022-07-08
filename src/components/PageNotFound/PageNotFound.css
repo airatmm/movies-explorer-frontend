@@ -1,5 +1,25 @@
+.section__page-not-found {
+    min-height: 100vh;
+    height: 100%;
+    display: flex;
+    justify-content: flex-start;
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+    .section__page-not-found {
+        justify-content: flex-end;
+    }
+}
+
+@media (min-width: 320px) and (max-width: 767px) {
+    .section__page-not-found {
+        justify-content: space-between;
+    }
+}
+
 .page-not-found__content {
-    max-width: calc(100% - 2 * 440px);
+    max-width: 400px;
+    width: 100%;
     margin: 246px auto 0;
     display: flex;
     flex-direction: column;
@@ -8,33 +28,66 @@
 
 @media (min-width: 768px) and (max-width: 1023px) {
     .page-not-found__content {
-        max-width: calc(100% - 2 * 184px);
-        margin: 408px auto 222px;
+        margin: 0 auto;
+    }
+}
+
+@media (min-width: 320px) and (max-width: 767px) {
+    .page-not-found__content {
+        margin: 329px auto 0;
     }
 }
 
 .page-not-found__status {
     font-weight: 400;
     font-size: 140px;
-    line-height: 169px;
+    line-height: 1.2;
     margin: 0;
     padding: 0;
+}
+
+@media (min-width: 320px) and (max-width: 767px) {
+    .page-not-found__status {
+        font-size: 80px;
+        line-height: 1.21;
+    }
 }
 
 .page-not-found__text {
     font-weight: 400;
     font-size: 16px;
-    line-height: 19px;
+    line-height: 1.19;
     margin: 5px 0 0;
     padding: 0;
+}
+
+@media (min-width: 320px) and (max-width: 767px) {
+    .page-not-found__text {
+        font-size: 12px;
+        line-height: 1.25;
+    }
 }
 
 .page-not-found__button {
     font-weight: 400;
     font-size: 14px;
-    line-height: 17px;
+    line-height: 1.21;
     margin: 184px 0 0;
     padding: 0;
     border: none;
     background-color: transparent;
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+    .page-not-found__button {
+        margin: 184px 0 222px;
+    }
+}
+
+@media (min-width: 320px) and (max-width: 767px) {
+    .page-not-found__button {
+        margin: 0 0 30px;
+        font-size: 12px;
+        line-height: 1.25;
+    }
 }
