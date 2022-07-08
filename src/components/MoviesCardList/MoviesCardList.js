@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import getMovies from '../../utils/moviesApi';
 import MovieCard from '../MovieCard/MovieCard';
 import MoreButton from '../MoreButton/MoreButton';
+import Preloader from '../Preloader/Preloader'
 
 const MoviesCardList = () => {
     const [movies, setMovies] = useState([]);
@@ -31,7 +32,7 @@ const MoviesCardList = () => {
 
     return (
         <>
-            {isLoading ? ('Loading.....') :
+            {isLoading ? (<Preloader />) :
             (
                 <>
                 <ul className="movies__list">
@@ -40,7 +41,6 @@ const MoviesCardList = () => {
                         key={id}
                         movie={movie}
                     />
-                    // <li key={movies._id} {movie={movie}} />
                 ))}
             </ul>
                 <MoreButton
