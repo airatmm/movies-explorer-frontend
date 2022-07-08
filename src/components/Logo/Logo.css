@@ -1,0 +1,8 @@
+.header__logo-link {
+    display: flex;
+}
+
+.header__logo {
+    max-width: 38px;
+    width: 100%;
+}

@@ -13,7 +13,7 @@ import HeaderFooterLayout from "../HeaderFooterLayout/HeaderFooterLayout";
 
 const App = () => {
     // const [currentUser, setCurrentUser] = useState({});
-    const [loggedIn, setLoggedIn] = useState(false);
+    const [loggedIn, setLoggedIn] = useState(true);
 
     const handleLogin = () => {
         setLoggedIn(true);

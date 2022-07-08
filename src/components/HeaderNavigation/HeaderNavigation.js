@@ -1,51 +1,25 @@
 import "./HeaderNavigation.css";
-import { NavLink } from 'react-router-dom';
-import accountIcon from '../../images/accountIcon.svg';
+import { Link, NavLink } from 'react-router-dom';
 import Navigation from '../Navigation/Navigation';
 
-const setActiveLink = ({isActive}) => isActive ? "header__nav-link header__nav-link_account-active" : "header__nav-link header__nav-link_account";
+const setActiveLink = ({isActive}) => isActive ? "navigation__Link navigation__Link-active link " : "navigation__Link link";
 
-const HeaderNavigation = ({loggedIn}) => {
+const HeaderNavigation = ({ loggedIn }) => {
+
     if (loggedIn) {
         return (
-            <>
-                <Navigation name="header__account">
-                    <ul className="header__nav header__nav_movies">
-                        <li className="header__nav-item">
-                            <NavLink className={setActiveLink}
-                                     to="/movies">Фильмы</NavLink>
-                        </li>
-                        <li className="header__nav-item">
-                            <NavLink className={setActiveLink}
-                                     to="/saved-movies">Сохранённые фильмы</NavLink>
-                        </li>
-                    </ul>
-                </Navigation>
-                <Navigation name="header__account">
-                    <ul className="header__nav">
-                        <li className="header__nav-item">
-                            <NavLink to="/profile" className="header__nav-link header__nav-link_profile">
-                                <img className="header__account-icon" src={accountIcon} alt="Аккаунт"/>
-                                <span className="header__account-text">Аккаунт</span>
-                            </NavLink>
-                        </li>
-                    </ul>
-                </Navigation>
-            </>
+            <Navigation name="header__navigation">
+                <NavLink className={setActiveLink} to="/movies">Фильмы</NavLink>
+                <NavLink className={setActiveLink} to="/saved-movies">Сохранённые фильмы</NavLink>
+            </Navigation>
         )
     }
     return (
-        <Navigation name="header__auth">
-            <ul className="header__nav">
-                <li className="header__nav-item">
-                    <NavLink className="header__nav-link header__nav-link_sign" to="/signup">Регистрация</NavLink>
-                </li>
-                <li className="header__nav-item">
-                    <NavLink className="header__nav-link header__nav-link_sign" to="/signin">Войти</NavLink>
-                </li>
-            </ul>
+        <Navigation name="header__navigation header__navigation_no-auth">
+                  <Link className="navigation__Link navigation__Link_no-auth" to="/signup">Регистрация</Link>
+                  <Link className="navigation__Link navigation__Link_no-auth" to="/signin">Войти</Link>
         </Navigation>
-    )
+  )
 }
 
 export default HeaderNavigation;

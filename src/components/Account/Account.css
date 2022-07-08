@@ -1,0 +1,27 @@
+.account {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 7px;
+    box-sizing: border-box;
+    border: 2px solid rgba(0, 0, 0, .2);
+    border-radius: 50px;
+    padding: 8px 12px;
+    transition: border .6s ease;
+    text-decoration: none;
+    color: #000;
+}
+
+/*.account:hover {*/
+/*    border: 2px solid rgba(0, 0, 0, 0.8);*/
+/*}*/
+
+.account-icon{
+    max-width: 100%;
+}
+
+.account-text{
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 1.14;
+}

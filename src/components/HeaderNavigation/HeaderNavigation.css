@@ -1,30 +1,34 @@
-.header__nav {
+.header__navigation {
     display: flex;
     align-items: center;
     padding: 0;
     margin: 0;
-    gap: 10px;
-    list-style: none;
-}
-.header__nav_movies {
     gap: 16px;
-    /*list-style: none;*/
 }
 
-.header__nav-item {
-    padding: 0;
-}
-
-.header__nav-link {
+.navigation__Link {
     font-style: normal;
+    text-decoration: none;
+    color: #000;
+    font-size: 13px;
+    font-weight: 400;
+    line-height: 1.38;
+}
+
+.navigation__Link-active {
+    font-weight: 500;
+    font-size: 13px;
+    line-height: 1.38;
+}
+
+.header__navigation_no-auth {
+    gap: 10px;
+}
+
+.navigation__Link_no-auth {
     font-weight: 500;
     font-size: 12px;
     line-height: 1.3;
-    text-decoration: none;
-    color: #000;
-}
-
-.header__nav-link_sign {
     transition: background .8s ease;
     padding: 8px 20px;
     margin: 0;
@@ -32,45 +36,8 @@
     background-color: transparent;
 }
 
-.header__nav-link_sign:hover {
+.navigation__Link_no-auth:hover {
     background: #000;
     color: #fff;
     cursor: pointer;
-}
-
-.header__nav-link_account {
-    font-size: 13px;
-    font-weight: 400;
-    line-height: 1.38;
-}
-
-.header__nav-link_account-active {
-    font-size: 13px;
-    line-height: 1.38;
-}
-
-.header__nav-link_profile {
-    display: flex;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 7px;
-    box-sizing: border-box;
-    border: 2px solid rgba(0, 0, 0, .2);
-    border-radius: 50px;
-    padding: 8px 12px;
-    transition: border .6s ease;
-}
-
-.header__nav-link_profile:hover {
-    border: 2px solid rgba(0, 0, 0, 0.8);
-}
-
-.header__account-icon{
-    max-width: 100%;
-}
-
-.header__account-text{
-    font-weight: 500;
-    font-size: 14px;
-    line-height: 1.14;
 }
