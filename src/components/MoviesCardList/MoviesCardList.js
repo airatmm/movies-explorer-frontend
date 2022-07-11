@@ -5,7 +5,7 @@ import MovieCard from '../MovieCard/MovieCard';
 import MoreButton from '../MoreButton/MoreButton';
 import Preloader from '../Preloader/Preloader'
 
-const MoviesCardList = () => {
+const MoviesCardList = ({loggedIn}) => {
     const [movies, setMovies] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
     const [initialMovies, setInitialMovies] = useState(0);
@@ -16,6 +16,7 @@ const MoviesCardList = () => {
     }
 
     useEffect(() => {
+        if (loggedIn) {
         setIsLoading(true)
         getMovies()
             .then((movies) => {
@@ -27,8 +28,9 @@ const MoviesCardList = () => {
                 console.log("Movies loading OK!");
             })
             .catch((err) => console.log(`Ошибка загрузки данных с сервера (movies) ${err}`));
+        }
 
-    }, []);
+    }, [loggedIn]);
 
     return (
         <>

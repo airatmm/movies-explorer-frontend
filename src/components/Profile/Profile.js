@@ -1,14 +1,32 @@
 import './Profile.css';
-import {useContext} from 'react';
+import { useEffect, useState } from 'react';
 import Section from "../Section/Section";
-import { CurrentUserContext } from "../../contexts/CurrentUserContext";
+// import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 
-const Profile = ({/*name,/* email, */onSignOut }) => {
-    const currentUser = useContext(CurrentUserContext);
+const Profile = ({/*name,/* email, */currentUser, onSignOut }) => {
+    // console.log(currentUser);
+    //const currentUser = useContext(CurrentUserContext);
+    const [name, setName] = useState('');
+    const [email, setEmail] = useState('');
+
+    useEffect(() => {
+        setName(currentUser.name);
+        setEmail(currentUser.email);
+    }, [currentUser]);
+
+    const handleNameChange = (evt) => {
+        setName(evt.target.value);
+    }
+
+    const handleEmailChange = (evt) => {
+        setEmail(evt.target.value);
+    }
     return (
         <Section name="profile">
             <form className="profile__form">
-                <h3 className="profile__title">Привет, {currentUser.name}!</h3>
+                <h3 className="profile__title">
+                    Привет, {currentUser.name}!
+                </h3>
                 <fieldset className="profile__fieldset">
                     <label className="profile__label">
                         <span className="profile__text">Имя</span>
@@ -20,8 +38,8 @@ const Profile = ({/*name,/* email, */onSignOut }) => {
                             name="name"
                             id="input-profile"
                             required
-                            // value={name}
-                            // onChange={}
+                            value={currentUser.name}
+                            onChange={handleNameChange}
                         />
                         <span className="profile__input-error"/>
                     </label>
@@ -35,8 +53,8 @@ const Profile = ({/*name,/* email, */onSignOut }) => {
                             name="email"
                             id="input-email"
                             required
-                            // value={email}
-                            // onChange={}
+                            value={currentUser.email}
+                            onChange={handleEmailChange}
                         />
                         <span className="profile__input-error"/>
                     </label>

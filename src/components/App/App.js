@@ -11,6 +11,7 @@ import Register from '../Register/Register';
 import Main from '../Main/Main';
 import PageNotFound from "../PageNotFound/PageNotFound";
 import HeaderFooterLayout from "../HeaderFooterLayout/HeaderFooterLayout";
+import PrivateRoute from "../PrivateRoute/PrivateRoute";
 
 
 const App = () => {
@@ -18,65 +19,69 @@ const App = () => {
     const [loggedIn, setLoggedIn] = useState(false);
     const [isLoading, setIsLoading] = useState(false); // процесс загрузки, сохранения и тд (Сохранение...)
     const [data, setData] = useState({
-        // name: "",
         email: ""
     });
 
     const navigate = useNavigate(); // предоставляет доступ к useNavigate, используем для навигации (React Router)
-
-    // useEffect(() => {
-    //     console.log(loggedIn, "App 28");
-    //     if (loggedIn) {
-    //         MainApi.getUserInfo()
-    //             .then((info) => {
-    //                 console.log(info, "App 32 info");
-    //                 setCurrentUser(info);
-    //             })
-    //             .catch((err) => console.log(`Ошибка загрузки данных с сервера getUserInfo ${err}`));
+    // const checkRes = (data) => {
+    //     if (data) {
+    //         //setToken(res.jwt);
+    //         setData({
+    //             // name: data.name,
+    //             email: data.email
+    //         });
+    //
+    //         // setLoggedIn(true);
+    //         // history.replace({pathname: "/"});
     //     }
-    // }, [loggedIn]);
+    // };
+    const handleLoggedIn = () => {
+        setLoggedIn(true);
+    };
+
+    const checkAuth = () => {
+        MainApi.getUserInfo()
+            .then((data) => {
+                if (data) {
+                    setData({
+                        email: data.email
+                    });
+                    handleLoggedIn();
+                    navigate("/movies");
+                }
+            })
+            .catch((err) => {
+                console.log(`Пользователь не авторизован ${err}`);
+                navigate("/signin");
+            });
+    };
+
+    useEffect(() => {
+        checkAuth();
+    }, []);
 
 
     useEffect(() => {
         if (loggedIn) {
             MainApi.getUserInfo()
                 .then((data) => {
-                    setCurrentUser(data);
-                    console.log(data)
                     if (data) {
-                        setLoggedIn(true);
-                        navigate("/movies", { replace: true });
-                        checkRes(data);
+                        // setLoggedIn(true);
+                        // navigate("/movies", { replace: true });
+                        // checkRes(data);
+                        setCurrentUser(data);
                     }
-                    else {
-                        setLoggedIn(false);
-                        navigate("/signin", { replace: true });
-                    }
+                    // else {
+                    //     setLoggedIn(false);
+                    //     navigate("/signin", { replace: true });
+                    // }
                 })
                 .catch((err) => {
                     console.error(err);
                     setLoggedIn(false);
-                    // setData({
-                    //     name: "",
-                    //     email: ""
-                    // });
                 });
         }
-    }, [loggedIn, navigate]); // зависимость от хистори-navigate и loggedIn
-
-
-
-    const checkRes = (data) => {
-        if (data) {
-            //setToken(res.jwt);
-            setData({
-                // name: data.name,
-                email: data.email
-            });
-            // setLoggedIn(true);
-            // history.replace({pathname: "/"});
-        }
-    };
+    }, [loggedIn]);
 
 
     // авторизация // логин
@@ -84,10 +89,14 @@ const App = () => {
         setIsLoading(true);
         MainApi.authorize(email, password)
             .then((data) => {
-                console.log(data, " handleLogin app 86");
-                checkRes(data)
-                setLoggedIn(true);
-                navigate("/movies", { replace: true });
+                if (data) {
+                    checkAuth();
+                }
+                // checkRes(data)
+                // setLoggedIn(true);
+                // navigate("/movies", { replace: true });
+                // setCurrentUser(data);
+
             })
             .catch((err) => {
                 console.error(err)
@@ -103,8 +112,10 @@ const App = () => {
         setIsLoading(true);
         MainApi.register(name, email, password)
             .then((data) => {
-                checkRes(data)
-                navigate("/signin", { replace: true });
+                if (data) {
+                // checkRes(data)
+                handleLogin(email, password);
+                }
             })
             .catch((err) => {
                 console.error(err)
@@ -119,7 +130,6 @@ const App = () => {
         MainApi.signout();
         setLoggedIn(false);
         setData({
-            // name: "",
             email: ""
         });
         //removeToken();
@@ -132,8 +142,8 @@ const App = () => {
                 <Routes>
                     <Route path="/" element={<HeaderFooterLayout loggedIn={loggedIn}/>}>
                         <Route index element={<Main />}/>
-                        <Route path="movies" element={<Movies />} />
-                        <Route path="saved-movies" element={<SavedMovies />}/>
+                        <Route path="movies" element={<PrivateRoute loggedIn={loggedIn}><Movies loggedIn={loggedIn} /></PrivateRoute>} />
+                        <Route path="saved-movies" element={<PrivateRoute loggedIn={loggedIn}><SavedMovies loggedIn={loggedIn} /></PrivateRoute>}/>
                         <Route
                             path="profile"
                             element=
@@ -142,6 +152,7 @@ const App = () => {
                                 name={data.name}
                                 email={data.email}
                                 onSignOut={handleSignOut}
+                                currentUser={currentUser}
                             />
                         }
                         />

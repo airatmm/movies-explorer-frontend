@@ -4,11 +4,11 @@ import MoviesCardList from "../MoviesCardList/MoviesCardList";
 import Section from "../Section/Section";
 
 
-const Movies = () => {
+const Movies = ({loggedIn}) => {
     return (
         <Section name="movies">
             <SearchForm />
-            <MoviesCardList />
+            <MoviesCardList loggedIn={loggedIn}/>
         </Section>
     )
 }
