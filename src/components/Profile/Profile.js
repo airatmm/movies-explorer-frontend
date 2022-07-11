@@ -1,11 +1,14 @@
 import './Profile.css';
+import {useContext} from 'react';
 import Section from "../Section/Section";
+import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 
-const Profile = () => {
+const Profile = ({/*name,/* email, */onSignOut }) => {
+    const currentUser = useContext(CurrentUserContext);
     return (
         <Section name="profile">
             <form className="profile__form">
-                <h3 className="profile__title">Привет, Виталий!</h3>
+                <h3 className="profile__title">Привет, {currentUser.name}!</h3>
                 <fieldset className="profile__fieldset">
                     <label className="profile__label">
                         <span className="profile__text">Имя</span>
@@ -17,7 +20,8 @@ const Profile = () => {
                             name="name"
                             id="input-profile"
                             required
-                           // value="Виталий"
+                            // value={name}
+                            // onChange={}
                         />
                         <span className="profile__input-error"/>
                     </label>
@@ -31,7 +35,8 @@ const Profile = () => {
                             name="email"
                             id="input-email"
                             required
-                            //value="pochta@yandex.ru"
+                            // value={email}
+                            // onChange={}
                         />
                         <span className="profile__input-error"/>
                     </label>
@@ -39,7 +44,7 @@ const Profile = () => {
             </form>
             <div className="profile__button">
                 <button type="submit" className="profile__button_edit link" >Редактировать</button>
-                <button type="submit" className="profile__button_signout link" >Выйти из аккаунта</button>
+                <button onClick={onSignOut} type="submit" className="profile__button_signout link" >Выйти из аккаунта</button>
             </div>
         </Section>
     )

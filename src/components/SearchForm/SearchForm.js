@@ -4,7 +4,7 @@ import FilterCheckbox from "../FilterCheckbox/FilterCheckbox";
 const SearchForm = () => {
     return (
         <section className="section__search">
-            <form className="search__form" noValidate>
+            <form className="search__form">
                 <fieldset className="search__form-fieldset">
                 <input
                     className="search__form-input"

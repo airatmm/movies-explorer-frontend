@@ -1,15 +1,41 @@
 import SectionForm from "../SectionForm/SectionForm";
+import { useState } from 'react';
 
-const Login = () => {
+const Login = ({onLogin, isLoading}) => {
+    const [data, setData] = useState({
+        email: "",
+        password: ""
+    })
+
+    const handleChange = (e) => {
+        const {name, value} = e.target;
+
+        setData({
+            ...data,
+            [name]: value,
+        });
+    };
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        if (!data.email || !data.password) {
+            console.log(data.email)
+            console.log(data.password)
+            return;
+        }
+        const {email, password} = data;
+        onLogin(email, password);
+    }
 
     return (
             <SectionForm
                 name="login"
                 title="Рады видеть!"
-                buttonText="Войти"
+                buttonText={isLoading ? 'Вход...' : 'Войти'}
                 formText="Ещё не зарегистрированы?"
                 url="/signup"
                 formLinkText="Регистрация"
+                handleSubmit={handleSubmit}
             >
                 <label className="form__label">E-mail</label>
                 <input
@@ -20,7 +46,8 @@ const Login = () => {
                     name="email"
                     id="input-email"
                     required
-                    //value="pochta@yandex.ru"
+                    value={data.email}
+                    onChange={handleChange}
                 />
                 <span className="form__input-error"/>
 
@@ -33,7 +60,8 @@ const Login = () => {
                     name="password"
                     id="input-password"
                     required
-                    //value="pochta@yandex.ru"
+                    value={data.password}
+                    onChange={handleChange}
                 />
                 <span className="form__input-error"/>
             </SectionForm>

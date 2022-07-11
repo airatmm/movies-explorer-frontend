@@ -1,15 +1,40 @@
 import './Register.css';
+import { useState } from 'react';
 import SectionForm from "../SectionForm/SectionForm";
 
-const Register = () => {
+const Register = ({onRegister, isLoading}) => {
+    const [data, setData] = useState({
+        name:"",
+        email: "",
+        password: ""
+    });
+
+    const handleChange = (e) => {
+        const {name, value} = e.target;
+
+        setData({
+            ...data,
+            [name]: value,
+        });
+    };
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        const {name, email, password} = data;
+        onRegister(name, email, password);
+        setData({ name: '', email: '', password: '' });
+
+    }
+
     return (
         <SectionForm
             name="register"
             title="Добро пожаловать!"
-            buttonText="Зарегистрироваться"
+            buttonText={isLoading ? 'Регистрация...' : 'Зарегистрироваться'}
             formText="Уже зарегистрированы?"
             url="/signin"
             formLinkText="Войти"
+            handleSubmit={handleSubmit}
         >
             <label className="form__label">Имя</label>
             <input
@@ -20,7 +45,8 @@ const Register = () => {
                 name="name"
                 id="input-form"
                 required
-                // value="Виталий"
+                value={data.name}
+                onChange={handleChange}
             />
             <span className="form__input-error"/>
 
@@ -33,7 +59,8 @@ const Register = () => {
                 name="email"
                 id="input-email"
                 required
-                //value="pochta@yandex.ru"
+                value={data.email}
+                onChange={handleChange}
             />
             <span className="form__input-error"/>
 
@@ -46,7 +73,8 @@ const Register = () => {
                     name="password"
                     id="input-password"
                     required
-                    //value="pochta@yandex.ru"
+                    value={data.password}
+                    onChange={handleChange}
                 />
                 <span className="form__input-error"/>
         </SectionForm>

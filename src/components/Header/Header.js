@@ -33,10 +33,10 @@ function Header({ loggedIn }) {
 
                 {loggedIn && !isMobile &&
                     (
-                        <>
+                        (<>
                         <HeaderNavigation loggedIn={loggedIn}/>
                         <Account onCick={closeBurgerMenuLink}  />
-                        </>
+                        </>)
                     )
                 }
                 {!loggedIn && <HeaderNavigation loggedIn={loggedIn}/> }
