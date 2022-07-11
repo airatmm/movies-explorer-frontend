@@ -1,5 +1,5 @@
 import './App.css';
-import { Route, Routes, useNavigate } from 'react-router-dom';
+import { Route, Routes, useNavigate, useLocation } from 'react-router-dom';
 import { CurrentUserContext } from '../../contexts/CurrentUserContext';
 import {useState, useEffect} from 'react';
 import * as  MainApi from '../../utils/MainApi';
@@ -21,25 +21,15 @@ const App = () => {
     const [data, setData] = useState({
         email: ""
     });
-
+    // const location = useLocation();
     const navigate = useNavigate(); // предоставляет доступ к useNavigate, используем для навигации (React Router)
-    // const checkRes = (data) => {
-    //     if (data) {
-    //         //setToken(res.jwt);
-    //         setData({
-    //             // name: data.name,
-    //             email: data.email
-    //         });
-    //
-    //         // setLoggedIn(true);
-    //         // history.replace({pathname: "/"});
-    //     }
-    // };
+
     const handleLoggedIn = () => {
         setLoggedIn(true);
     };
 
     const checkAuth = () => {
+        // const path = location.pathname;
         MainApi.getUserInfo()
             .then((data) => {
                 if (data) {
@@ -47,12 +37,13 @@ const App = () => {
                         email: data.email
                     });
                     handleLoggedIn();
-                    navigate("/movies");
+                    // navigate(path);
                 }
+               //  navigate("/movies", { replace: true });
             })
             .catch((err) => {
                 console.log(`Пользователь не авторизован ${err}`);
-                navigate("/signin");
+                navigate("/signin", { replace: true });
             });
     };
 
@@ -66,15 +57,8 @@ const App = () => {
             MainApi.getUserInfo()
                 .then((data) => {
                     if (data) {
-                        // setLoggedIn(true);
-                        // navigate("/movies", { replace: true });
-                        // checkRes(data);
                         setCurrentUser(data);
                     }
-                    // else {
-                    //     setLoggedIn(false);
-                    //     navigate("/signin", { replace: true });
-                    // }
                 })
                 .catch((err) => {
                     console.error(err);
@@ -91,12 +75,8 @@ const App = () => {
             .then((data) => {
                 if (data) {
                     checkAuth();
+                    navigate("/movies", { replace: true });
                 }
-                // checkRes(data)
-                // setLoggedIn(true);
-                // navigate("/movies", { replace: true });
-                // setCurrentUser(data);
-
             })
             .catch((err) => {
                 console.error(err)

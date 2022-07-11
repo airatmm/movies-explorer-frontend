@@ -38,7 +38,7 @@ const Profile = ({/*name,/* email, */currentUser, onSignOut }) => {
                             name="name"
                             id="input-profile"
                             required
-                            value={currentUser.name}
+                            value={currentUser.name || ''}
                             onChange={handleNameChange}
                         />
                         <span className="profile__input-error"/>
@@ -53,7 +53,7 @@ const Profile = ({/*name,/* email, */currentUser, onSignOut }) => {
                             name="email"
                             id="input-email"
                             required
-                            value={currentUser.email}
+                            value={currentUser.email || ''}
                             onChange={handleEmailChange}
                         />
                         <span className="profile__input-error"/>
