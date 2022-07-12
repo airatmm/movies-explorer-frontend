@@ -5,6 +5,7 @@ import HeaderNavigation from '../HeaderNavigation/HeaderNavigation';
 import Account from "../Account/Account";
 import BurgerMenu from "../BurgerMenu/BurgerMenu";
 import Hamburger from "../Hamburger/Hamburger";
+import PrivateRoute from "../PrivateRoute/PrivateRoute";
 
 function Header({ loggedIn }) {
     // const headerClassName = `header ${loggedIn ? 'header__account' : 'header header__auth'}`;
@@ -35,7 +36,7 @@ function Header({ loggedIn }) {
                     (
                         (<>
                         <HeaderNavigation loggedIn={loggedIn}/>
-                        <Account onCick={closeBurgerMenuLink}  />
+                        <Account onCick={closeBurgerMenuLink}/>
                         </>)
                     )
                 }

@@ -1,6 +1,6 @@
 import './App.css';
 import { Route, Routes, useNavigate, useLocation } from 'react-router-dom';
-import { CurrentUserContext } from '../../contexts/CurrentUserContext';
+import CurrentUserContext from '../../contexts/CurrentUserContext';
 import {useState, useEffect} from 'react';
 import * as  MainApi from '../../utils/MainApi';
 import Movies from '../Movies/Movies';
@@ -18,28 +18,38 @@ const App = () => {
     const [currentUser, setCurrentUser] = useState({});
     const [loggedIn, setLoggedIn] = useState(false);
     const [isLoading, setIsLoading] = useState(false); // процесс загрузки, сохранения и тд (Сохранение...)
-    const [data, setData] = useState({
-        email: ""
-    });
-    // const location = useLocation();
+    // const [data, setData] = useState({
+    //     email: ""
+    // });
+    const [errorLogin, setErrorLogin] = useState('');
+    const [errorRegister, setErrorRegister] = useState('');
+    const [messageProfile, setMessageProfile] = useState('');
+
+    const location = useLocation();
     const navigate = useNavigate(); // предоставляет доступ к useNavigate, используем для навигации (React Router)
 
+    console.log(loggedIn, "App 27");
+    console.log(location.pathname, "App 28");
+
     const handleLoggedIn = () => {
+        const path = location.pathname;
         setLoggedIn(true);
+        if ((path === '/signin') || (path === '/signup')) {
+            navigate("/movies", { replace: true });
+        } else {
+            navigate(path);
+        }
     };
 
     const checkAuth = () => {
-        // const path = location.pathname;
         MainApi.getUserInfo()
             .then((data) => {
                 if (data) {
-                    setData({
-                        email: data.email
-                    });
-                    handleLoggedIn();
-                    // navigate(path);
+                // setData({
+                //     email: data.email
+                // });
+                handleLoggedIn();
                 }
-               //  navigate("/movies", { replace: true });
             })
             .catch((err) => {
                 console.log(`Пользователь не авторизован ${err}`);
@@ -74,12 +84,16 @@ const App = () => {
         MainApi.authorize(email, password)
             .then((data) => {
                 if (data) {
-                    checkAuth();
-                    navigate("/movies", { replace: true });
+                    checkAuth()
                 }
             })
             .catch((err) => {
-                console.error(err)
+                if (err.status === 401) {
+                    setErrorLogin("Неправильные почта или пароль")
+                } else {
+                    setErrorLogin("Что-то пошло не так. Попробуйте еще раз");
+                }
+                setLoggedIn(false);
 
             })
             .finally(() => {
@@ -98,7 +112,11 @@ const App = () => {
                 }
             })
             .catch((err) => {
-                console.error(err)
+                if (err.status === 409) {
+                    setErrorRegister( "Пользователь с таким email уже существует")
+                } else {
+                    setErrorRegister("Переданы некорректные данные при создании пользователя");
+                }
             })
             .finally(() => {
                 setIsLoading(false);
@@ -109,11 +127,25 @@ const App = () => {
     const handleSignOut = () => {
         MainApi.signout();
         setLoggedIn(false);
-        setData({
-            email: ""
-        });
+        // setData({
+        //     email: ""
+        // });
         //removeToken();
         navigate("/signin", { replace: true });
+    }
+
+    // обновление юзер инфо, редактирование профиля
+    const handleUpdateUser = (data) => {
+        setIsLoading(true);
+        MainApi.editProfile(data)
+            .then((res) => {
+                setLoggedIn(true);
+                setCurrentUser(res);
+                navigate("/profile", { replace: true });
+                setTimeout(() => setMessageProfile("Данные успешно изменены"), 500);
+            })
+            .catch(() => setMessageProfile("Что-то пошло не так. Попробуйте еще раз"))
+            .finally(() => setIsLoading(false));
     }
 
     return (
@@ -126,15 +158,14 @@ const App = () => {
                         <Route path="saved-movies" element={<PrivateRoute loggedIn={loggedIn}><SavedMovies loggedIn={loggedIn} /></PrivateRoute>}/>
                         <Route
                             path="profile"
-                            element=
-                                {
+                            element={<PrivateRoute loggedIn={loggedIn}>
                             <Profile
-                                name={data.name}
-                                email={data.email}
                                 onSignOut={handleSignOut}
-                                currentUser={currentUser}
-                            />
-                        }
+                                onUpdateUser={handleUpdateUser}
+                                message={messageProfile}
+                                loggedIn={loggedIn}
+                                // currentUser={currentUser}
+                            /></PrivateRoute>}
                         />
                     </Route>
                     <Route
@@ -144,6 +175,7 @@ const App = () => {
                         <Login
                             onLogin={handleLogin}
                             isLoading={isLoading}
+                            badRequest={errorLogin}
                         />
                     }
                     />
@@ -153,6 +185,7 @@ const App = () => {
                             <Register
                                 onRegister={handleRegister}
                                 isLoading={isLoading}
+                                badRequest={errorRegister}
                             />
                         }
                     />

@@ -62,4 +62,21 @@ export const getUserInfo = () => {
         .then(checkResponse);
 };
 
+// редактирование профиля
+export const editProfile = (name, email) => {
+    return fetch(`${BASE_URL}/users/me`, {
+        method: 'PATCH',
+        headers: {
+            Accept: "application/json",
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            name,
+            email
+        }),
+        credentials: 'include',
+    })
+        .then(checkResponse);
+}
+
 // //Bearer - предоставить доступ носителю этого токена
