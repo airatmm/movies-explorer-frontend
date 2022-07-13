@@ -70,10 +70,22 @@ export const editProfile = (name, email) => {
             Accept: "application/json",
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({
+        body: JSON.stringify(
             name,
             email
-        }),
+        ),
+        credentials: 'include',
+    })
+        .then(checkResponse);
+}
+
+export const getSavedMovies = () => {
+    return fetch(`${BASE_URL}/movies`, {
+        method: 'GET',
+        headers: {
+            'Content-type': 'application/json',
+            Accept: 'application/json',
+        },
         credentials: 'include',
     })
         .then(checkResponse);

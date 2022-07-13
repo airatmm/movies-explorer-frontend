@@ -1,10 +1,35 @@
 import './SearchForm.css';
-import FilterCheckbox from "../FilterCheckbox/FilterCheckbox";
+import { useEffect, useState } from 'react';
+import FilterCheckbox from '../FilterCheckbox/FilterCheckbox';
+import useFormWithValidation from '../../hooks/useForm';
 
-const SearchForm = () => {
+const SearchForm = ({ isLoading, onSearch }) => {
+    const { values, handleChange, isValid, resetForm } = useFormWithValidation();
+    // const { searchQuery } = values;
+    const [error, setError] = useState('');
+
+    useEffect(() => {
+        resetForm();
+    }, [resetForm]);
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        if (!values.search) {
+            setError('Необходимо написать запрос');
+            // setTimeout(() => {
+            //     setError('');
+            // }, 2000);
+        } else {
+            onSearch(values.search);
+            resetForm();
+        }
+        //handleInput(e.target.search.value)
+    }
+    const submitButtonClassName = `${!isValid ? "search__button search__button_disabled" : "search__button link"}`;
+
     return (
         <section className="section__search">
-            <form className="search__form">
+            <form className="search__form" onSubmit={handleSubmit}>
                 <fieldset className="search__form-fieldset">
                 <input
                     className="search__form-input"
@@ -13,11 +38,16 @@ const SearchForm = () => {
                     name="search"
                     placeholder="Фильм"
                     id="search__form"
+                    autoComplete="off"
+                    autoFocus={true}
+                    onChange={handleChange}
                     required
-                    // onChange={handleShortMovieChange}
+                    value={values.search || ''}
+                    disabled={isLoading}
                 />
-                <button type="submit" className="search__button link" />
+                <button type="submit" disabled={!isValid} className={submitButtonClassName} />
                 </fieldset>
+                {error && <span className="search__form_error">{error}</span>}
                 <div className="search__form_short">
                 <FilterCheckbox />
                     <p className="search__form_text">Короткометражки</p>

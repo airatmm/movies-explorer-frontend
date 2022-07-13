@@ -1,5 +1,4 @@
 import './MovieCard.css';
-import { MOVIES_API } from "../../utils/constants";
 import { TimeConverter } from "../../utils/TimeConverter";
 import { useState } from 'react';
 
@@ -19,8 +18,9 @@ const MovieCard = ({ movie }) => {
             {activeClass === 'movie__button-save link' ?
                 (<button type="button" className={activeClass} aria-label="Сохранить" onClick={handleLikedMovie}>Сохранить</button>)
                 : (<button type="button" className={activeClass} aria-label="Сохранить" onClick={handleLikedMovie} />)}
-            {/*<button type="button" className={activeClass} aria-label="Сохранить">Сохранить</button>*/}
-            <img className="movie__images" src={`${MOVIES_API}/${movie.image.url}`} alt={movie.nameRU}/>
+            <a href={movie.trailerLink} className="movie__item_link link" target="_blank" rel="noreferrer">
+                <img className="movie__images" src={movie.image} alt={movie.nameRU}/>
+            </a>
             <div className="movie__content">
                 <h2 className="movie__caption">{movie.nameRU}</h2>
                 <p className="movie__duration">{TimeConverter(movie.duration)}</p>

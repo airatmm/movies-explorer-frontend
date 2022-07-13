@@ -5,58 +5,37 @@ import CurrentUserContext  from '../../contexts/CurrentUserContext';
 import useFormWithValidation from '../../hooks/useForm';
 
 const Profile = ({ onSignOut, onUpdateUser, message }) => {
-    // console.log(currentUser);
-    // const currentUser = useContext(CurrentUserContext);
-    // const [name, setName] = useState('');
-    // const [email, setEmail] = useState('');
-    //
-    // useEffect(() => {
-    //     setName(currentUser.name);
-    //     setEmail(currentUser.email);
-    // }, [currentUser]);
-    //
-    // const handleNameChange = (evt) => {
-    //     setName(evt.target.value);
-    // }
-    //
-    // const handleEmailChange = (evt) => {
-    //     setEmail(evt.target.value);
-    // }
+
     const currentUser = useContext(CurrentUserContext);
-    const { values, handleChange, errors, setValues, isValid } = useFormWithValidation();
-    const [disabled, setDisabled] = useState(true);
+    const { values, handleChange, errors, isValid } = useFormWithValidation();
+    const [matchedValues, setMatchedValues] = useState(false);
+
+    const checkInputValues = () => {
+        if (currentUser.email === values.email ||
+            currentUser.name === values.name) {
+            setMatchedValues(false);
+        } else {
+            setMatchedValues(true);
+        }
+    }
 
     useEffect(() => {
-        const disabled = !isValid
-        setDisabled(disabled);
-    }, [isValid]);
+        checkInputValues();
+    },[currentUser, handleChange, values, isValid, matchedValues])
 
-    // function handleSubmit(e) {
-    //     e.preventDefault();
-    //     props.onUpdateUser({
-    //         name: values.name || currentUser.name,
-    //         email: values.email || currentUser.email,
-    //     });
-    // }
+
 
     const handleSubmit = (e) => {
-        // Запрещаем браузеру переходить по адресу формы
         e.preventDefault();
-
-        // Передаём значения управляемых компонентов во внешний обработчик
-        const {name, email} = values;
         onUpdateUser({
-            name: name,
-            email: email
+            name: values.name || currentUser.name,
+            email: values.email || currentUser.email,
         });
-        // setValues(values);
+        checkInputValues();
     }
-    // props.onUpdateUser({
-    //     name: values.name || currentUser.name,
-    //     email: values.email || currentUser.email,
-    // });
 
-    const submitButtonClassName = `${disabled ? "profile__button_edit profile__button_edit_disabled" : "profile__button_edit link"}`
+
+    const submitButtonClassName = `${!isValid ? "profile__button_edit profile__button_edit_disabled" : "profile__button_edit link"}`
 
     return (
         <Section name="profile">
@@ -75,7 +54,7 @@ const Profile = ({ onSignOut, onUpdateUser, message }) => {
                             name="name"
                             id="input-name"
                             required
-                            value={values.name || currentUser.name || ""}
+                            defaultValue={currentUser.name || ""}
                             onChange={handleChange}
                             autoComplete="off"
                         />
@@ -93,7 +72,7 @@ const Profile = ({ onSignOut, onUpdateUser, message }) => {
                             name="email"
                             id="input-email"
                             required
-                            value={values.email || currentUser.email || ""}
+                            defaultValue={currentUser.email || ""}
                             onChange={handleChange}
                             autoComplete="off"
                         />
@@ -102,7 +81,7 @@ const Profile = ({ onSignOut, onUpdateUser, message }) => {
                 </fieldset>
                 <span className="profile__input-error">{message}</span>
                 <div className="profile__button">
-                    <button type="submit" disabled={disabled} className={submitButtonClassName}>Редактировать</button>
+                    <button type="submit" disabled={!matchedValues || !isValid} className={submitButtonClassName}>Редактировать</button>
                     <button onClick={onSignOut} type="submit" className="profile__button_signout link" >Выйти из аккаунта</button>
                 </div>
             </form>

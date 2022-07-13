@@ -1,36 +1,10 @@
 import './Register.css';
-import { useState, useEffect } from 'react';
 import SectionForm from "../SectionForm/SectionForm";
 import useFormWithValidation from '../../hooks/useForm';
 
 const Register = ({ onRegister, isLoading, badRequest }) => {
 
-    const { values, handleChange, errors, setValues, isValid, resetForm } = useFormWithValidation();
-    const [disabled, setDisabled] = useState(true);
-
-    useEffect(() => {
-        resetForm();
-    }, [resetForm]);
-
-    useEffect(() => {
-        const disabled = !isValid
-        setDisabled(disabled);
-    }, [isValid]);
-
-    // const [data, setData] = useState({
-    //     name:"",
-    //     email: "",
-    //     password: ""
-    // });
-    //
-    // const handleChange = (e) => {
-    //     const {name, value} = e.target;
-    //
-    //     setData({
-    //         ...data,
-    //         [name]: value,
-    //     });
-    // };
+    const { values, handleChange, errors, isValid } = useFormWithValidation();
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -39,11 +13,9 @@ const Register = ({ onRegister, isLoading, badRequest }) => {
         }
         const {name, email, password} = values;
         onRegister(name, email, password);
-        setValues(name, email, password);
-
     }
 
-    const submitButtonClassName = `${disabled ? "form__sign-button form__submit-button_disabled" : "form__sign-button link"}`
+    const submitButtonClassName = `${!isValid ? "form__sign-button form__submit-button_disabled" : "form__sign-button link"}`;
 
     return (
         <SectionForm

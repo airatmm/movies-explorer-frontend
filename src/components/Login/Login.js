@@ -1,48 +1,21 @@
 import SectionForm from "../SectionForm/SectionForm";
-import { useState, useEffect } from 'react';
 import useFormWithValidation from '../../hooks/useForm';
 
 const Login = ({onLogin, isLoading, badRequest }) => {
-    const { values, handleChange, errors, setValues, isValid, resetForm } = useFormWithValidation();
-    const [disabled, setDisabled] = useState(true);
+    const { values, handleChange, errors, isValid } = useFormWithValidation();
 
-    //
-    // useEffect(() => {
-    //     setValues(values);
-    // }, [setValues, values])
-    useEffect(() => {
-        resetForm();
-    }, [resetForm]);
-
-    useEffect(() => {
-        const disabled = !isValid
-        setDisabled(disabled);
-    }, [isValid]);
-
-    // const [data, setData] = useState({
-    //     email: "",
-    //     password: ""
-    // })
-
-    // const handleChange = (e) => {
-    //     const {name, value} = e.target;
-    //
-    //     setData({
-    //         ...data,
-    //         [name]: value,
-    //     });
-    // };
+    const {email, password} = values;
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        if (!values.password || !values.email) {
+        if (!password || !email) {
             return;
         }
-        const {email, password} = values;
         onLogin(email, password);
-        setValues(email, password);
     }
-    const submitButtonClassName = `${disabled ? "form__sign-button form__submit-button_disabled" : "form__sign-button link"}`
+
+    const submitButtonClassName = `${!isValid ? "form__sign-button form__submit-button_disabled" : "form__sign-button link"}`;
+
     return (
             <SectionForm
                 name="login"
@@ -58,7 +31,6 @@ const Login = ({onLogin, isLoading, badRequest }) => {
                 <label className="form__label">E-mail</label>
                 <input
                     className={errors.email ? "form__input form__input-email form__input_not-valid" : "form__input form__input-email"}
-                        /*"form__input form__input-email"*/
                     type="email"
                     minLength="3"
                     maxLength="50"

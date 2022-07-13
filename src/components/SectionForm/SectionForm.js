@@ -32,7 +32,7 @@ const SectionForm = (
                       {badRequest && <span className="form__input-error">{badRequest}</span>}
                   </div>
                   <div className="form__sign">
-                      <button disabled={disabled} type="submit" className={submitButtonClassName}/*"form__sign-button link"*/>{buttonText}</button>
+                      <button disabled={disabled} type="submit" className={submitButtonClassName}>{buttonText}</button>
                       <span className="form__text">{formText}&nbsp;
                           <Link to={url} className="form_link link">{formLinkText}</Link>
                 </span>

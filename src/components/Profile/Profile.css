@@ -145,6 +145,7 @@
 
 .profile__button_edit_disable {
     color: #a0a0a0;
+    cursor: default;
 }
 
 .profile__button_signout {
