@@ -5,7 +5,7 @@ import HeaderNavigation from '../HeaderNavigation/HeaderNavigation';
 import Account from "../Account/Account";
 import BurgerMenu from "../BurgerMenu/BurgerMenu";
 import Hamburger from "../Hamburger/Hamburger";
-
+import { MIDDLE } from '../../utils/constants';
 function Header({ loggedIn }) {
     const [width, setWidth] = useState(window.innerWidth);
 
@@ -18,7 +18,7 @@ function Header({ loggedIn }) {
         return () => window.removeEventListener('resize', updateWidth);
     });
 
-    const isMobile = width <= 768;
+    const isMobile = width <= MIDDLE;
 
     const [isOpen, setIsOpen] = useState(false);
     const handleBurgerMenuClick = () => setIsOpen(!isOpen);

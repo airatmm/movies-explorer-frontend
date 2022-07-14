@@ -3,9 +3,8 @@ import { useEffect, useState } from 'react';
 import FilterCheckbox from '../FilterCheckbox/FilterCheckbox';
 import useFormWithValidation from '../../hooks/useForm';
 
-const SearchForm = ({ isLoading, onSearch }) => {
+const SearchForm = ({ isLoading, onSearch, onClickCheckbox }) => {
     const { values, handleChange, isValid, resetForm } = useFormWithValidation();
-    // const { searchQuery } = values;
     const [error, setError] = useState('');
 
     useEffect(() => {
@@ -18,12 +17,11 @@ const SearchForm = ({ isLoading, onSearch }) => {
             setError('Необходимо написать запрос');
             // setTimeout(() => {
             //     setError('');
-            // }, 2000);
+            // }, 5000);
         } else {
             onSearch(values.search);
             resetForm();
         }
-        //handleInput(e.target.search.value)
     }
     const submitButtonClassName = `${!isValid ? "search__button search__button_disabled" : "search__button link"}`;
 
@@ -49,7 +47,7 @@ const SearchForm = ({ isLoading, onSearch }) => {
                 </fieldset>
                 {error && <span className="search__form_error">{error}</span>}
                 <div className="search__form_short">
-                <FilterCheckbox />
+                <FilterCheckbox onClickCheckbox={onClickCheckbox}/>
                     <p className="search__form_text">Короткометражки</p>
                 </div>
             </form>

@@ -1,7 +1,7 @@
 import './App.css';
 import { Route, Routes, useNavigate, useLocation } from 'react-router-dom';
 import CurrentUserContext from '../../contexts/CurrentUserContext';
-import {useState, useEffect} from 'react';
+import {useState, useEffect } from 'react';
 import * as  MainApi from '../../utils/MainApi';
 import Movies from '../Movies/Movies';
 import SavedMovies from '../SavedMovies/SavedMovies';
@@ -15,24 +15,20 @@ import PrivateRoute from "../PrivateRoute/PrivateRoute";
 import getAllMovies from "../../utils/MoviesApi";
 import { MOVIES_API } from "../../utils/constants";
 
-
 const App = () => {
-    const [currentUser, setCurrentUser] = useState({});
-    const [loggedIn, setLoggedIn] = useState(false);
+    const [currentUser, setCurrentUser] = useState({}); // Состояние текущего пользователя
+    const [loggedIn, setLoggedIn] = useState(false); // Состояние логина
     const [isLoading, setIsLoading] = useState(false); // процесс загрузки, сохранения и тд (Сохранение...)
-    const [errorLogin, setErrorLogin] = useState(''); // ошибка при логине
-    const [errorRegister, setErrorRegister] = useState(''); // ошибка при регистрации
-    const [messageProfile, setMessageProfile] = useState(''); // при редактировании профиля
-    const [loadingError, setLoadingError] = useState('')
-    const [query, setQuery] = useState('');
-
-    const [allMovies, setAllMovies] = useState([]); // список всех фильмов
+    const [errorLogin, setErrorLogin] = useState(''); // Сообщение ошибки логина
+    const [errorRegister, setErrorRegister] = useState(''); // Сообщение ошибки регистрации
+    const [messageProfile, setMessageProfile] = useState(''); // Сообщение редактирования профиля
+    const [loadingError, setLoadingError] = useState('') // Сообщение ошибки логина
+    const [allMovies, setAllMovies] = useState([]); // Список всех фильмов
     const [searchMovies, setSearchMovies] = useState([]); // Список выдачи результатов
-    // const [savedMovies, setSavedMovies] = useState([]); // Список сохраненных фильмов
-    // const [savedSearchMovies, setSavedSearchMovies] = useState(favoriteMovies); // Поиск в сохраненных??
+    const [savedMovies, setSavedMovies] = useState([]); // Список сохраненных фильмов
 
     const location = useLocation();
-    const navigate = useNavigate(); // предоставляет доступ к useNavigate, используем для навигации (React Router)
+    const navigate = useNavigate(); // Предоставляет доступ к useNavigate, был UseHistory в v5 Router
 
     const handleLoggedIn = () => {
         const path = location.pathname;
@@ -44,6 +40,7 @@ const App = () => {
         }
     };
 
+    // Проверка токена (jwt) в cookies
     const checkAuth = () => {
         MainApi.getUserInfo()
             .then((data) => {
@@ -51,31 +48,28 @@ const App = () => {
                 handleLoggedIn();
                 }
             })
-            .catch((err) => {
-                console.log(`Пользователь не авторизован ${err}`);
-                navigate("/signin", { replace: true });
+            .catch(() => {
+                console.log(`Пользователь не авторизован`);
             });
     };
+
 
     useEffect(() => {
         checkAuth();
     }, []);
 
-
+// загрузка информации о пользователе
     useEffect(() => {
-        //if (loggedIn) {
-            MainApi.getUserInfo()
-                .then((data) => {
-                    if (data) {
-                        setCurrentUser(data);
-                        getAllMoviesData();
-                    }
-                })
-                .catch((err) => {
-                    console.error(err);
-                    setLoggedIn(false);
-                });
-        //}
+        MainApi.getUserInfo()
+            .then((data) => {
+                if (data) {
+                    setCurrentUser(data);
+                }
+            })
+            .catch((err) => {
+                console.error(err);
+                setLoggedIn(false);
+            });
     }, [loggedIn]);
 
 
@@ -86,7 +80,6 @@ const App = () => {
             .then((data) => {
                 if (data) {
                     checkAuth();
-                    getAllMoviesData();
                 }
             })
             .catch((err) => {
@@ -103,7 +96,7 @@ const App = () => {
             });
     };
 
-// регистрация
+    // регистрация
     const handleRegister = (name, email, password) => {
         setIsLoading(true);
         MainApi.register(name, email, password)
@@ -127,10 +120,14 @@ const App = () => {
 
     // выход
     const handleSignOut = () => {
-        localStorage.removeItem('allMovies');
         MainApi.signout();
+        localStorage.removeItem('allMovies');
+        localStorage.removeItem('savedMovies');
+        setAllMovies([]);
+        setSearchMovies([]);
+        setSavedMovies([]);
         setLoggedIn(false);
-        navigate("/signin", { replace: true });
+        navigate("/signin", { replace: true }); // Поменять на главную!!!
     }
 
     // обновление юзер инфо, редактирование профиля
@@ -150,17 +147,11 @@ const App = () => {
             .finally(() => setIsLoading(false));
     }
 
-    // Список всех фильмов, записываем в локалсторидж (передал в useEffect при логине)
+    // Список всех фильмов, записываем в локалсторидж (передал в useEffect при логине) ~223
     const getAllMoviesData = () => {
-        // setIsLoading(true)
         getAllMovies()
             .then((data) => {
-                const allMovies = data.map((item) => {
-                    return {
-                        ...item,
-                        image: `${MOVIES_API}/${item.image.url}`,
-                    };
-                });
+                const allMovies = data.map((item) => ({...item, image: `${MOVIES_API}/${item.image.url}`}));
                 localStorage.setItem('allMovies', JSON.stringify(allMovies))
                 setAllMovies(allMovies);
                 console.log("Movies loading OK!");
@@ -169,31 +160,86 @@ const App = () => {
                 localStorage.removeItem('allMovies');
                 setLoadingError(`Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз`)
             });
-            //.finally(() => setIsLoading(false));
-    };
+   };
 
+    // Получаем массив сохраненных/избранных фильмов из локалсториджа (передал в useEffect при логине) ~223
+    const getSavedMovies = () => {
+        MainApi.getSavedMovies()
+            .then((data) => {
+                const savedMoviesArr = data.map((item) => ({ ...item, id: item.movieId }));
+                localStorage.setItem('savedMovies', JSON.stringify(savedMoviesArr))
+                setSavedMovies(savedMoviesArr);
+            })
+            .catch(() => {
+                localStorage.removeItem('savedMovies');
+                setLoadingError(`Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз`)
+            });
+    }
+
+    // Добавление в массив сохраненные/избранные
+    const addMoviesToSaved = (movie) => {
+        MainApi.addMoviesToSaved(movie)
+            .then((data) => {
+                setSavedMovies([...savedMovies, { ...data, id: data.movieId }]);
+            })
+            .catch((err) => console.error(err));
+    }
+
+    // Удаление из массива сохраненные/избранные
+    const deleteMoviesToSaved = (movie) => {
+        const movieId = savedMovies.find((item) => item.id === movie.id);
+        MainApi.removeMoviesToSaved(movieId._id)
+            .then((data) => {
+                const newSavedMoviesArr = savedMovies.filter((item) => item.movieId !== data.movieId);
+                setSavedMovies(newSavedMoviesArr)
+            })
+            .catch((err) => console.error(err));
+    }
+
+    // Добавление/Удаление в массив сохраненные/избранные (кнопка лайк/сохранить)
+    const handleAddedMoviesToSaved = (movie, isMovieAddedToSave) =>(isMovieAddedToSave ? addMoviesToSaved(movie) : deleteMoviesToSaved(movie));
+
+    // Проверяем есть ли уже фильм в массиве сохраненные/избранные
+    const isMovieAddedToSave = (movie) => savedMovies.some(item => item.id === movie.id);
+
+    // Процесс поиска фильмов
+    // regex - рег. выражение - искать все совпадения
+    // Поиск по RU и EN названиям
     const searchProcess = (data, searchQuery) => {
+        // console.log(data, "App search 2018")
         if (searchQuery) {
             const regex = new RegExp(searchQuery, 'gi');
-            const filterData = data.filter((item) => regex.test(item.nameRU) || regex.test(item.nameEN));
-            if (filterData.length === 0) {
+            const searchData = data.filter((item) => regex.test(item.nameRU) || regex.test(item.nameEN));
+            if (searchData.length === 0) {
                 setLoadingError('Ничего не найдено');
             } else {
                 setLoadingError('');
             }
-            return filterData;
+            return searchData;
         }
         return [];
     };
 
     const handleSearch = (searchQuery) => {
         setIsLoading(true);
+        // а нужен ли таймаут?? скорее да, для прелоадера
         setTimeout(() => {
-            setQuery(searchQuery);
             setSearchMovies(searchProcess(allMovies, searchQuery));
             setIsLoading(false);
         }, 600);
     };
+
+    useEffect(() => {
+        if (loggedIn) {
+            getAllMoviesData();
+            getSavedMovies();
+        }
+    }, [loggedIn]);
+
+    useEffect(() => {
+        // setFilterSavedMovies(searchFilter(savedMovies, query));
+        localStorage.setItem('savedMovies', JSON.stringify(savedMovies));
+    }, [savedMovies]);
 
     return (
          <CurrentUserContext.Provider value={currentUser}>
@@ -209,16 +255,23 @@ const App = () => {
                                     movies={searchMovies}
                                     loadingError={loadingError}
                                     onSearchSubmit={handleSearch}
+                                    onSavedClick={handleAddedMoviesToSaved}
+                                    isMovieAddedToSave={isMovieAddedToSave}
                                     // savedMovies={false}
-                                    // movies={filterMovies}
-                                    // onBookmarkClick={bookmarkHandler}
-                                    // isMovieAdded={isMovieAdded}
                                 />
                             </PrivateRoute>
                         } />
                         <Route path="saved-movies" element={
                             <PrivateRoute loggedIn={loggedIn}>
-                                <SavedMovies loggedIn={loggedIn}
+                                <SavedMovies
+                                    loggedIn={loggedIn}
+                                    isLoading={isLoading}
+                                    movies={savedMovies}
+                                    loadingError={loadingError}
+                                    onSearchSubmit={handleSearch}
+                                    onSavedClick={handleAddedMoviesToSaved}
+                                    isMovieAddedToSave={isMovieAddedToSave}
+
                                 />
                             </PrivateRoute>
                         }/>

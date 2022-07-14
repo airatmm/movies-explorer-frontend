@@ -79,9 +79,48 @@ export const editProfile = (name, email) => {
         .then(checkResponse);
 }
 
+// /saved-movies
 export const getSavedMovies = () => {
     return fetch(`${BASE_URL}/movies`, {
         method: 'GET',
+        headers: {
+            'Content-type': 'application/json',
+            Accept: 'application/json',
+        },
+        credentials: 'include',
+    })
+        .then(checkResponse);
+}
+
+export const addMoviesToSaved = (data) => {
+    return fetch(`${BASE_URL}/movies`, {
+        method: 'POST',
+        headers: {
+            'Content-type': 'application/json',
+            Accept: 'application/json',
+        },
+        credentials: 'include',
+        body: JSON.stringify({
+            country: data.country,
+            director: data.director,
+            duration: data.duration,
+            year: data.year,
+            description: data.description,
+            image: data.image,
+            trailerLink: data.trailerLink,
+            thumbnail: data.image,
+            movieId: data.id,
+            nameRU: data.nameRU,
+            nameEN: data.nameEN,
+
+        }),
+    })
+        .then(checkResponse);
+}
+
+export const removeMoviesToSaved = (movieId) => {
+    return fetch(`${BASE_URL}/movies/${movieId}`, {
+        method: 'DELETE',
         headers: {
             'Content-type': 'application/json',
             Accept: 'application/json',
