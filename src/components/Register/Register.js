@@ -52,6 +52,7 @@ const Register = ({ onRegister, isLoading, badRequest }) => {
                 name="email"
                 id="input-email"
                 required
+                pattern="([^@\s]+@[^@\s]+\.[^@\s])+[A-Za-z]+"
                 value={values.email || ""}
                 onChange={handleChange}
             />

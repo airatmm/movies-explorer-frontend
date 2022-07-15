@@ -4,25 +4,22 @@ import MoviesCardList from "../MoviesCardList/MoviesCardList";
 import Section from "../Section/Section";
 import Preloader from "../Preloader/Preloader";
 import { useEffect, useState } from "react";
-import { SHORT_MOVIE } from "../../utils/constants";
 
 const SavedMovies = (
     {
         loggedIn,
+        savedMovies,
         movies,
         loadingError,
         isLoading,
         onSavedClick,
-        isMovieAddedToSave
+        isMovieAddedToSave,
+        onClickCheckbox,
+        isCheckboxOn
     }
     ) => {
-    const [isCheckboxOn, setIsCheckboxOn] = useState(false);
-    const [moviesOnSearchPage, setMoviesOnSearchPage] = useState([]);
-    const shortMovies= (a) => a.filter((item) => item.duration <= SHORT_MOVIE);
 
-    const onClickCheckbox = () => {
-        setIsCheckboxOn(!isCheckboxOn);
-    };
+    const [moviesOnSearchPage, setMoviesOnSearchPage] = useState([]);
 
     const searchProcess = (data, searchQuery) => {
         if (searchQuery) {
@@ -32,7 +29,6 @@ const SavedMovies = (
         return [];
     };
 
-
     const handleSearch = (searchQuery) => {
          setMoviesOnSearchPage(searchProcess(movies, searchQuery));
     };
@@ -40,15 +36,20 @@ const SavedMovies = (
     useEffect(() => {
         setMoviesOnSearchPage(movies);
     }, [movies])
+
     return (
         <Section name="movies-saved">
-            <SearchForm onClickCheckbox={onClickCheckbox} onSearch={handleSearch}/>
+            <SearchForm
+                isCheckboxOn={isCheckboxOn}
+                onClickCheckbox={onClickCheckbox}
+                onSearch={handleSearch}/>
 
             {isLoading && <Preloader />}
 
             <MoviesCardList
                 loggedIn={loggedIn}
-                movies={isCheckboxOn ? shortMovies(moviesOnSearchPage) : moviesOnSearchPage}
+                savedMovies={savedMovies}
+                movies={moviesOnSearchPage}
                 isMovieAddedToSave={isMovieAddedToSave}
                 onSavedClick={onSavedClick}
             />

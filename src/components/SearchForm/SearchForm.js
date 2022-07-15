@@ -1,15 +1,15 @@
 import './SearchForm.css';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import FilterCheckbox from '../FilterCheckbox/FilterCheckbox';
 import useFormWithValidation from '../../hooks/useForm';
 
-const SearchForm = ({ isLoading, onSearch, onClickCheckbox }) => {
-    const { values, handleChange, isValid, resetForm } = useFormWithValidation();
+const SearchForm = ({ isLoading, onSearch, onClickCheckbox, isCheckboxOn }) => {
+    const { values, handleChange, isValid } = useFormWithValidation();
     const [error, setError] = useState('');
 
-    useEffect(() => {
-        resetForm();
-    }, [resetForm]);
+    // useEffect(() => {
+    //     resetForm();
+    // }, [resetForm]);
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -20,7 +20,6 @@ const SearchForm = ({ isLoading, onSearch, onClickCheckbox }) => {
             // }, 5000);
         } else {
             onSearch(values.search);
-            resetForm();
         }
     }
     const submitButtonClassName = `${!isValid ? "search__button search__button_disabled" : "search__button link"}`;
@@ -47,7 +46,7 @@ const SearchForm = ({ isLoading, onSearch, onClickCheckbox }) => {
                 </fieldset>
                 {error && <span className="search__form_error">{error}</span>}
                 <div className="search__form_short">
-                <FilterCheckbox onClickCheckbox={onClickCheckbox}/>
+                <FilterCheckbox isCheckboxOn={isCheckboxOn} onClickCheckbox={onClickCheckbox}/>
                     <p className="search__form_text">Короткометражки</p>
                 </div>
             </form>

@@ -13,7 +13,7 @@ import PageNotFound from "../PageNotFound/PageNotFound";
 import HeaderFooterLayout from "../HeaderFooterLayout/HeaderFooterLayout";
 import PrivateRoute from "../PrivateRoute/PrivateRoute";
 import getAllMovies from "../../utils/MoviesApi";
-import { MOVIES_API } from "../../utils/constants";
+import { MOVIES_API, SHORT_MOVIE } from "../../utils/constants";
 
 const App = () => {
     const [currentUser, setCurrentUser] = useState({}); // Состояние текущего пользователя
@@ -26,7 +26,8 @@ const App = () => {
     const [allMovies, setAllMovies] = useState([]); // Список всех фильмов
     const [searchMovies, setSearchMovies] = useState([]); // Список выдачи результатов
     const [savedMovies, setSavedMovies] = useState([]); // Список сохраненных фильмов
-
+    const [isCheckboxOn, setIsCheckboxOn] = useState(false); // Состояние чекбокса короткометражек
+    const [query, setQuery] = useState('');
     const location = useLocation();
     const navigate = useNavigate(); // Предоставляет доступ к useNavigate, был UseHistory в v5 Router
 
@@ -49,7 +50,7 @@ const App = () => {
                 }
             })
             .catch(() => {
-                console.log(`Пользователь не авторизован`);
+                navigate("/", { replace: true });
             });
     };
 
@@ -60,16 +61,18 @@ const App = () => {
 
 // загрузка информации о пользователе
     useEffect(() => {
-        MainApi.getUserInfo()
-            .then((data) => {
-                if (data) {
-                    setCurrentUser(data);
-                }
-            })
-            .catch((err) => {
-                console.error(err);
-                setLoggedIn(false);
-            });
+        if (loggedIn) {
+            MainApi.getUserInfo()
+                .then((data) => {
+                    if (data) {
+                        setCurrentUser(data);
+                    }
+                })
+                .catch((err) => {
+                    console.error(err);
+                    setLoggedIn(false);
+                });
+        }
     }, [loggedIn]);
 
 
@@ -123,9 +126,11 @@ const App = () => {
         MainApi.signout();
         localStorage.removeItem('allMovies');
         localStorage.removeItem('savedMovies');
+        localStorage.removeItem('isCheckboxOn');
+        localStorage.removeItem('searchQuery');
         setAllMovies([]);
         setSearchMovies([]);
-        setSavedMovies([]);
+        setLoadingError('')
         setLoggedIn(false);
         navigate("/signin", { replace: true }); // Поменять на главную!!!
     }
@@ -151,13 +156,17 @@ const App = () => {
     const getAllMoviesData = () => {
         getAllMovies()
             .then((data) => {
-                const allMovies = data.map((item) => ({...item, image: `${MOVIES_API}/${item.image.url}`}));
+                const allMovies = data.map((item) => ({
+                    ...item,
+                    image: `${MOVIES_API}/${item.image.url}`,
+                    thumbnail: `${MOVIES_API}/${item.image.formats.thumbnail.url}`
+                }));
                 localStorage.setItem('allMovies', JSON.stringify(allMovies))
                 setAllMovies(allMovies);
                 console.log("Movies loading OK!");
             })
             .catch(() => {
-                localStorage.removeItem('allMovies');
+                // localStorage.removeItem('allMovies');
                 setLoadingError(`Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз`)
             });
    };
@@ -171,16 +180,45 @@ const App = () => {
                 setSavedMovies(savedMoviesArr);
             })
             .catch(() => {
-                localStorage.removeItem('savedMovies');
+                // localStorage.removeItem('savedMovies');
                 setLoadingError(`Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз`)
             });
     }
+
+    useEffect(() => {
+        if (loggedIn) {
+            const allMovies = JSON.parse(localStorage.getItem('allMovies'));
+            if (allMovies) {
+                setAllMovies(allMovies);
+            } else {
+                getAllMoviesData();
+            }
+
+            const savedMoviesArr = JSON.parse(localStorage.getItem('savedMovies'));
+            if (savedMoviesArr) {
+                setSavedMovies(savedMoviesArr);
+            } else {
+                getSavedMovies();
+            }
+            const isCheckboxOn = JSON.parse(localStorage.getItem('isCheckboxOn'));
+            if (isCheckboxOn) {
+                setIsCheckboxOn(isCheckboxOn);
+            }
+
+            const searchQuery = JSON.parse(localStorage.getItem('searchQuery'));
+            if (searchQuery) {
+                setQuery(searchQuery);
+            }
+        }
+
+    }, [loggedIn]);
 
     // Добавление в массив сохраненные/избранные
     const addMoviesToSaved = (movie) => {
         MainApi.addMoviesToSaved(movie)
             .then((data) => {
-                setSavedMovies([...savedMovies, { ...data, id: data.movieId }]);
+                const trailerLink = data.trailerLink ? data.trailerLink : "https://www.youtube.com";
+                setSavedMovies([...savedMovies, { ...data, id: data.movieId, trailerLink: trailerLink }]);
             })
             .catch((err) => console.error(err));
     }
@@ -202,6 +240,15 @@ const App = () => {
     // Проверяем есть ли уже фильм в массиве сохраненные/избранные
     const isMovieAddedToSave = (movie) => savedMovies.some(item => item.id === movie.id);
 
+    // фильтр для короткометражек
+    const shortMovies= (a) => a.filter((item) => item.duration <= SHORT_MOVIE);
+
+    // Клик на чекбокс короткометражек
+    const onClickCheckbox = () => {
+        setIsCheckboxOn(!isCheckboxOn);
+    };
+
+
     // Процесс поиска фильмов
     // regex - рег. выражение - искать все совпадения
     // Поиск по RU и EN названиям
@@ -222,24 +269,27 @@ const App = () => {
 
     const handleSearch = (searchQuery) => {
         setIsLoading(true);
-        // а нужен ли таймаут?? скорее да, для прелоадера
         setTimeout(() => {
+            setQuery(searchQuery);
             setSearchMovies(searchProcess(allMovies, searchQuery));
             setIsLoading(false);
         }, 600);
     };
 
-    useEffect(() => {
-        if (loggedIn) {
-            getAllMoviesData();
-            getSavedMovies();
-        }
-    }, [loggedIn]);
+    // useEffect(() => {
+    //     if (loggedIn) {
+    //         getAllMoviesData();
+    //         getSavedMovies();
+    //     }
+    // }, [loggedIn]);
 
     useEffect(() => {
-        // setFilterSavedMovies(searchFilter(savedMovies, query));
-        localStorage.setItem('savedMovies', JSON.stringify(savedMovies));
-    }, [savedMovies]);
+        if (loggedIn ) {
+            localStorage.setItem('searchQuery', JSON.stringify(query));
+            localStorage.setItem('isCheckboxOn', JSON.stringify(isCheckboxOn));
+            localStorage.setItem('savedMovies', JSON.stringify(savedMovies));
+        }
+    }, [loggedIn, query, isCheckboxOn, savedMovies]);
 
     return (
          <CurrentUserContext.Provider value={currentUser}>
@@ -252,12 +302,14 @@ const App = () => {
                                 <Movies
                                     loggedIn={loggedIn}
                                     isLoading={isLoading}
-                                    movies={searchMovies}
+                                    savedMovies={savedMovies}
+                                    movies={isCheckboxOn ? shortMovies(searchMovies) : searchMovies}
                                     loadingError={loadingError}
                                     onSearchSubmit={handleSearch}
                                     onSavedClick={handleAddedMoviesToSaved}
                                     isMovieAddedToSave={isMovieAddedToSave}
-                                    // savedMovies={false}
+                                    onClickCheckbox={onClickCheckbox}
+                                    isCheckboxOn={isCheckboxOn}
                                 />
                             </PrivateRoute>
                         } />
@@ -266,11 +318,14 @@ const App = () => {
                                 <SavedMovies
                                     loggedIn={loggedIn}
                                     isLoading={isLoading}
-                                    movies={savedMovies}
+                                    savedMovies={savedMovies}
+                                    movies={isCheckboxOn ? shortMovies(savedMovies) : savedMovies}
                                     loadingError={loadingError}
                                     onSearchSubmit={handleSearch}
                                     onSavedClick={handleAddedMoviesToSaved}
                                     isMovieAddedToSave={isMovieAddedToSave}
+                                    onClickCheckbox={onClickCheckbox}
+                                    isCheckboxOn={isCheckboxOn}
 
                                 />
                             </PrivateRoute>

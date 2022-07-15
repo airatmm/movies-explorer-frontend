@@ -4,7 +4,7 @@ import ButtonAddToSave from '../ButtonAddToSave/ButtonAddToSave';
 import ButtonDeleteToSave from "../ButtonDeleteToSave/ButtonDeleteToSave";
 
 
-const MovieCard = ({ movie, onSavedClick, isMovieAddedToSave }) => {
+const MovieCard = ({ savedMovies, movie, onSavedClick, isMovieAddedToSave }) => {
 
     const isAddedToSave = isMovieAddedToSave(movie)
 
@@ -18,11 +18,13 @@ const MovieCard = ({ movie, onSavedClick, isMovieAddedToSave }) => {
         onSavedClick(movie, false);
     }
 
+
+
     return (
         <li className="movie__item">
-            {!isAddedToSave ?
-                <ButtonAddToSave onClick={handleSaveMovieClick}/>
-                : <ButtonDeleteToSave onClick={handleDeleteSaveMovieClick}/>}
+            {!savedMovies ?
+                <ButtonDeleteToSave  onClick={handleDeleteSaveMovieClick}/>
+                : <ButtonAddToSave isAddedToSave={isAddedToSave} onClick={handleSaveMovieClick}/>}
             <a href={movie.trailerLink} className="movie__item_link link" target="_blank" rel="noreferrer">
                 <img className="movie__images" src={movie.image} alt={movie.nameRU}/>
             </a>

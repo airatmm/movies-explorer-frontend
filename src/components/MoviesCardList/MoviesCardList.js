@@ -5,11 +5,16 @@ import { useLocation } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { DESKTOP, MIDDLE, MOBILE } from '../../utils/constants';
 
-const MoviesCardList = ({ movies, onSavedClick, isMovieAddedToSave }) => {
+const MoviesCardList = ({ savedMovies, movies, onSavedClick, isMovieAddedToSave }) => {
 
     const [width, setWidth] = useState(window.innerWidth);
     const [moviesCount, setMoviesCount] = useState(0);
     const [extraCount, setExtraCount] = useState(0);
+
+    const resMovies = movies.slice(0, moviesCount);
+
+    const location = useLocation();
+    const path = location.pathname;
 
     const updateWidth = () => {
         setTimeout(() => {
@@ -31,17 +36,15 @@ const MoviesCardList = ({ movies, onSavedClick, isMovieAddedToSave }) => {
             setMoviesCount(5);
             setExtraCount(2);
         }
+        if (path === "/saved-movies") {
+            setMoviesCount(100)
+        }
         return () => window.removeEventListener('resize', updateWidth)
-    }, [width]);
+    }, [width, path]);
 
     const handleMoreButtonClick = () => {
         setMoviesCount(moviesCount + extraCount);
     }
-
-    const resMovies = movies.slice(0, moviesCount);
-
-    const location = useLocation();
-    const path = location.pathname;
 
     return (
         <>
@@ -49,6 +52,7 @@ const MoviesCardList = ({ movies, onSavedClick, isMovieAddedToSave }) => {
             {resMovies.map((movie, id) => (
                 <MovieCard
                     key={id}
+                    savedMovies={savedMovies}
                     movie={movie}
                     onSavedClick={onSavedClick}
                     isMovieAddedToSave={isMovieAddedToSave}

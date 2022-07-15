@@ -1,6 +1,6 @@
 import './FilterCheckbox.css';
 
-const FilterCheckbox = ({ onClickCheckbox }) => {
+const FilterCheckbox = ({ onClickCheckbox, isCheckboxOn }) => {
     return (
             <label htmlFor="search-form-checkbox" className="search__form-checkbox_label link">
             <input
@@ -9,6 +9,7 @@ const FilterCheckbox = ({ onClickCheckbox }) => {
                 id="search-form-checkbox"
                 name="search-form-checkbox"
                 onClick={onClickCheckbox}
+                defaultChecked={isCheckboxOn}
             />
             <span className="search__form-checkbox_switch"/>
             </label>
