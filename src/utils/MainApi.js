@@ -30,13 +30,7 @@ export const authorize = (email, password) => {
         credentials: 'include',
         body: JSON.stringify({email, password}),
     })
-        .then(checkResponse)
-    // .then((data) => {
-    //     if (data.token) {
-    //         //localStorage.setItem('jwt', data.token);
-    //         return data;
-    //     }
-    // })
+        .then(checkResponse);
 };
 
 export const signout = () => {

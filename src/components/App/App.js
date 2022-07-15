@@ -57,6 +57,7 @@ const App = () => {
 
     useEffect(() => {
         checkAuth();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
 // загрузка информации о пользователе
@@ -132,16 +133,14 @@ const App = () => {
         setSearchMovies([]);
         setLoadingError('')
         setLoggedIn(false);
-        navigate("/signin", { replace: true }); // Поменять на главную!!!
+        navigate("/", { replace: true });
     }
 
     // обновление юзер инфо, редактирование профиля
     const handleUpdateUser = (data) => {
-        console.log(data, "136 App");
         setIsLoading(true);
         MainApi.editProfile(data)
             .then((res) => {
-                console.log(res, "143 App");
                 setLoggedIn(true);
                 setCurrentUser(res);
                 navigate("/profile", { replace: true });
@@ -163,10 +162,9 @@ const App = () => {
                 }));
                 localStorage.setItem('allMovies', JSON.stringify(allMovies))
                 setAllMovies(allMovies);
-                console.log("Movies loading OK!");
             })
             .catch(() => {
-                // localStorage.removeItem('allMovies');
+                localStorage.removeItem('allMovies');
                 setLoadingError(`Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз`)
             });
    };
@@ -180,7 +178,7 @@ const App = () => {
                 setSavedMovies(savedMoviesArr);
             })
             .catch(() => {
-                // localStorage.removeItem('savedMovies');
+                localStorage.removeItem('savedMovies');
                 setLoadingError(`Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз`)
             });
     }
@@ -248,12 +246,10 @@ const App = () => {
         setIsCheckboxOn(!isCheckboxOn);
     };
 
-
     // Процесс поиска фильмов
     // regex - рег. выражение - искать все совпадения
     // Поиск по RU и EN названиям
     const searchProcess = (data, searchQuery) => {
-        // console.log(data, "App search 2018")
         if (searchQuery) {
             const regex = new RegExp(searchQuery, 'gi');
             const searchData = data.filter((item) => regex.test(item.nameRU) || regex.test(item.nameEN));
@@ -276,13 +272,6 @@ const App = () => {
         }, 600);
     };
 
-    // useEffect(() => {
-    //     if (loggedIn) {
-    //         getAllMoviesData();
-    //         getSavedMovies();
-    //     }
-    // }, [loggedIn]);
-
     useEffect(() => {
         if (loggedIn ) {
             localStorage.setItem('searchQuery', JSON.stringify(query));
@@ -302,7 +291,6 @@ const App = () => {
                                 <Movies
                                     loggedIn={loggedIn}
                                     isLoading={isLoading}
-                                    savedMovies={savedMovies}
                                     movies={isCheckboxOn ? shortMovies(searchMovies) : searchMovies}
                                     loadingError={loadingError}
                                     onSearchSubmit={handleSearch}
@@ -318,7 +306,6 @@ const App = () => {
                                 <SavedMovies
                                     loggedIn={loggedIn}
                                     isLoading={isLoading}
-                                    savedMovies={savedMovies}
                                     movies={isCheckboxOn ? shortMovies(savedMovies) : savedMovies}
                                     loadingError={loadingError}
                                     onSearchSubmit={handleSearch}

@@ -3,13 +3,10 @@ import SearchForm from '../SearchForm/SearchForm';
 import MoviesCardList from "../MoviesCardList/MoviesCardList";
 import Section from "../Section/Section";
 import Preloader from "../Preloader/Preloader";
-// import { useState } from "react";
-// import { SHORT_MOVIE } from "../../utils/constants";
 
 const Movies = (
         {
             loggedIn,
-            savedMovies,
             movies,
             onSearchSubmit,
             loadingError,
@@ -33,7 +30,6 @@ const Movies = (
             {isLoading && <Preloader />}
 
             <MoviesCardList
-                savedMovies={savedMovies}
                 movies={movies}
                 isMovieAddedToSave={isMovieAddedToSave}
                 loggedIn={loggedIn}

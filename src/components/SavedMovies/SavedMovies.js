@@ -1,4 +1,3 @@
-import './SavedMovies.css';
 import SearchForm from "../SearchForm/SearchForm";
 import MoviesCardList from "../MoviesCardList/MoviesCardList";
 import Section from "../Section/Section";
@@ -8,7 +7,6 @@ import { useEffect, useState } from "react";
 const SavedMovies = (
     {
         loggedIn,
-        savedMovies,
         movies,
         loadingError,
         isLoading,
@@ -48,7 +46,6 @@ const SavedMovies = (
 
             <MoviesCardList
                 loggedIn={loggedIn}
-                savedMovies={savedMovies}
                 movies={moviesOnSearchPage}
                 isMovieAddedToSave={isMovieAddedToSave}
                 onSavedClick={onSavedClick}

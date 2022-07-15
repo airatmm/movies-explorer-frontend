@@ -1,10 +1,10 @@
 import './ButtonAddToSave.css';
 
-const ButtonAddToSave = ({ isMovieAddedToSave, onClick }) => {
+const ButtonAddToSave = ({ isAddedToSave, onClick }) => {
     return (
         <button
             type="button"
-            className={!isMovieAddedToSave ? "movie__button-save link" : "movie__button-save_active link"}
+            className={isAddedToSave ? "movie__button-save_active link" : "movie__button-save link" }
             aria-label="Сохранить"
             onClick={onClick}
         >

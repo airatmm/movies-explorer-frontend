@@ -15,9 +15,9 @@ const SearchForm = ({ isLoading, onSearch, onClickCheckbox, isCheckboxOn }) => {
         e.preventDefault();
         if (!values.search) {
             setError('Необходимо написать запрос');
-            // setTimeout(() => {
-            //     setError('');
-            // }, 5000);
+            setTimeout(() => {
+                setError('');
+            }, 5000);
         } else {
             onSearch(values.search);
         }

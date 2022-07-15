@@ -5,7 +5,7 @@ import { useLocation } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { DESKTOP, MIDDLE, MOBILE } from '../../utils/constants';
 
-const MoviesCardList = ({ savedMovies, movies, onSavedClick, isMovieAddedToSave }) => {
+const MoviesCardList = ({ movies, onSavedClick, isMovieAddedToSave }) => {
 
     const [width, setWidth] = useState(window.innerWidth);
     const [moviesCount, setMoviesCount] = useState(0);
@@ -52,7 +52,6 @@ const MoviesCardList = ({ savedMovies, movies, onSavedClick, isMovieAddedToSave 
             {resMovies.map((movie, id) => (
                 <MovieCard
                     key={id}
-                    savedMovies={savedMovies}
                     movie={movie}
                     onSavedClick={onSavedClick}
                     isMovieAddedToSave={isMovieAddedToSave}
