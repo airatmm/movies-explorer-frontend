@@ -292,7 +292,6 @@ const App = () => {
     const handleInSavedSearch = (searchQuery) => {
         setIsLoading(true);
         setTimeout(() => {
-            setQuery(searchQuery);
             setMoviesOnSearchPage(searchProcess(savedMovies, searchQuery));
             setIsSearchedOnSaveMoviesPage(true);
             setIsLoading(false);

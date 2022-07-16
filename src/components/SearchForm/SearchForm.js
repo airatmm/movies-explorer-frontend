@@ -39,7 +39,7 @@ const SearchForm = ({ isLoading, onSearch, onClickCheckbox, isCheckboxOn }) => {
                     autoFocus={true}
                     onChange={handleChange}
                     required
-                    value={values.search || ''}
+                    // value={values.search || ''}
                     disabled={isLoading}
                 />
                 <button type="submit" disabled={!isValid} className={submitButtonClassName} />
