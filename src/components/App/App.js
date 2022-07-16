@@ -13,7 +13,15 @@ import PageNotFound from "../PageNotFound/PageNotFound";
 import HeaderFooterLayout from "../HeaderFooterLayout/HeaderFooterLayout";
 import PrivateRoute from "../PrivateRoute/PrivateRoute";
 import getAllMovies from "../../utils/MoviesApi";
-import { MOVIES_API, SHORT_MOVIE } from "../../utils/constants";
+import {
+    DUPLICATE_ERROR,
+    INCORRECT_DATA_LOGIN,
+    INCORRECT_DATA_REGISTRATION,
+    MOVIES_API,
+    NOT_FOUND_ERROR,
+    SERVER_ERROR,
+    SHORT_MOVIE, SOMETHING_WRONG, USER_UPDATE_MESSAGE
+} from "../../utils/constants";
 
 const App = () => {
     const [currentUser, setCurrentUser] = useState({}); // Состояние текущего пользователя
@@ -91,9 +99,9 @@ const App = () => {
             })
             .catch((err) => {
                 if (err.status === 401) {
-                    setErrorLogin("Неправильные почта или пароль")
+                    setErrorLogin(INCORRECT_DATA_LOGIN)
                 } else {
-                    setErrorLogin("Что-то пошло не так. Попробуйте еще раз");
+                    setErrorLogin(SOMETHING_WRONG);
                 }
                 setLoggedIn(false);
 
@@ -115,9 +123,9 @@ const App = () => {
             })
             .catch((err) => {
                 if (err.status === 409) {
-                    setErrorRegister( "Пользователь с таким email уже существует")
+                    setErrorRegister( DUPLICATE_ERROR)
                 } else {
-                    setErrorRegister("Переданы некорректные данные при создании пользователя");
+                    setErrorRegister(INCORRECT_DATA_REGISTRATION);
                 }
             })
             .finally(() => {
@@ -147,9 +155,9 @@ const App = () => {
                 setLoggedIn(true);
                 setCurrentUser(res);
                 navigate("/profile", { replace: true });
-                setTimeout(() => setMessageProfile("Данные успешно изменены"), 500);
+                setTimeout(() => setMessageProfile(USER_UPDATE_MESSAGE), 500);
             })
-            .catch(() => setMessageProfile("Что-то пошло не так. Попробуйте еще раз"))
+            .catch(() => setMessageProfile(SOMETHING_WRONG))
 
             .finally(() => setIsLoading(false));
     }
@@ -168,7 +176,7 @@ const App = () => {
             })
             .catch(() => {
                 localStorage.removeItem('allMovies');
-                setLoadingError(`Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз`)
+                setLoadingError(SERVER_ERROR)
             });
    };
 
@@ -182,7 +190,7 @@ const App = () => {
             })
             .catch(() => {
                 localStorage.removeItem('savedMovies');
-                setLoadingError(`Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз`)
+                setLoadingError(SERVER_ERROR)
             });
     }
 
@@ -261,7 +269,7 @@ const App = () => {
             const regex = new RegExp(searchQuery, 'gi');
             const searchData = data.filter((item) => regex.test(item.nameRU) || regex.test(item.nameEN));
             if (searchData.length === 0) {
-                setLoadingError('Ничего не найдено');
+                setLoadingError(NOT_FOUND_ERROR);
             } else {
                 setLoadingError('');
             }

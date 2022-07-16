@@ -37,6 +37,7 @@ const Movies = (
             />
 
             <div className="movies__error">{loadingError}</div>
+
         </Section>
     )
 }

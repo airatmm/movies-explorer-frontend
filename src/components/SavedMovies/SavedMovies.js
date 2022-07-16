@@ -28,14 +28,14 @@ const SavedMovies = (
 
             {isLoading && <Preloader />}
 
+            <div className="movies__error">{loadingError}</div>
+
             <MoviesCardList
                 loggedIn={loggedIn}
                 movies={isSearchedOnSaveMoviesPage ? searchMovies: movies}
                 isMovieAddedToSave={isMovieAddedToSave}
                 onSavedClick={onSavedClick}
             />
-
-        <div className="movies__error">{loadingError}</div>
 
         </Section>
     )
