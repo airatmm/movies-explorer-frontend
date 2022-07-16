@@ -15,6 +15,7 @@ const MovieCard = ({ movie, onSavedClick, isMovieAddedToSave }) => {
 
     const handleDeleteSaveMovieClick = (e) => {
         e.preventDefault();
+        // debugger
         onSavedClick(movie, false);
     }
 

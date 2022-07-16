@@ -24,10 +24,13 @@ const App = () => {
     const [messageProfile, setMessageProfile] = useState(''); // Сообщение редактирования профиля
     const [loadingError, setLoadingError] = useState('') // Сообщение ошибки логина
     const [allMovies, setAllMovies] = useState([]); // Список всех фильмов
-    const [searchMovies, setSearchMovies] = useState([]); // Список выдачи результатов
+    const [searchMovies, setSearchMovies] = useState([]); // Список выдачи результатов поиска
     const [savedMovies, setSavedMovies] = useState([]); // Список сохраненных фильмов
     const [isCheckboxOn, setIsCheckboxOn] = useState(false); // Состояние чекбокса короткометражек
-    const [query, setQuery] = useState('');
+    const [isSearchedOnSaveMoviesPage, setIsSearchedOnSaveMoviesPage] = useState(false); // Состояние производится ли поиск в сохраненных фильмах
+    const [moviesOnSearchPage, setMoviesOnSearchPage] = useState([]); // Список фильмов при поиске в сохраненных фильмах
+    const [query, setQuery] = useState(''); // Поисковая фраза
+
     const location = useLocation();
     const navigate = useNavigate(); // Предоставляет доступ к useNavigate, был UseHistory в v5 Router
 
@@ -226,6 +229,10 @@ const App = () => {
         const movieId = savedMovies.find((item) => item.id === movie.id);
         MainApi.removeMoviesToSaved(movieId._id)
             .then((data) => {
+                if (isSearchedOnSaveMoviesPage) {
+                    const newMoviesArrOnSearchPage = moviesOnSearchPage.filter((item) => item.movieId !== data.movieId);
+                    setMoviesOnSearchPage(newMoviesArrOnSearchPage);
+                }
                 const newSavedMoviesArr = savedMovies.filter((item) => item.movieId !== data.movieId);
                 setSavedMovies(newSavedMoviesArr)
             })
@@ -272,6 +279,22 @@ const App = () => {
         }, 600);
     };
 
+
+    // Поиск в сохраненных
+    const handleInSavedSearch = (searchQuery) => {
+        setIsLoading(true);
+        setTimeout(() => {
+            setQuery(searchQuery);
+            setMoviesOnSearchPage(searchProcess(savedMovies, searchQuery));
+            setIsSearchedOnSaveMoviesPage(true);
+            setIsLoading(false);
+        }, 600);
+    };
+
+    useEffect(() => {
+        setMoviesOnSearchPage(moviesOnSearchPage);
+    }, [moviesOnSearchPage])
+
     useEffect(() => {
         if (loggedIn ) {
             localStorage.setItem('searchQuery', JSON.stringify(query));
@@ -307,8 +330,10 @@ const App = () => {
                                     loggedIn={loggedIn}
                                     isLoading={isLoading}
                                     movies={isCheckboxOn ? shortMovies(savedMovies) : savedMovies}
+                                    searchMovies={isCheckboxOn ? shortMovies(moviesOnSearchPage) : moviesOnSearchPage}
+                                    isSearchedOnSaveMoviesPage={isSearchedOnSaveMoviesPage}
                                     loadingError={loadingError}
-                                    onSearchSubmit={handleSearch}
+                                    onSearchSubmit={handleInSavedSearch}
                                     onSavedClick={handleAddedMoviesToSaved}
                                     isMovieAddedToSave={isMovieAddedToSave}
                                     onClickCheckbox={onClickCheckbox}
