@@ -3,24 +3,21 @@ import { useState } from 'react';
 import FilterCheckbox from '../FilterCheckbox/FilterCheckbox';
 import useFormWithValidation from '../../hooks/useForm';
 
-const SearchForm = ({ isLoading, onSearch, onClickCheckbox, isCheckboxOn }) => {
+const SearchForm = ({ isLoading, onSearch, onClickCheckbox, isCheckboxOnMovies, isCheckboxOnSavedMovies, query }) => {
     const { values, handleChange, isValid } = useFormWithValidation();
     const [error, setError] = useState('');
-
-    // useEffect(() => {
-    //     resetForm();
-    // }, [resetForm]);
 
     const handleSubmit = (e) => {
         e.preventDefault();
         if (!values.search) {
-            setError('Необходимо написать запрос');
+            setError('Нужно ввести ключевое слово');
             setTimeout(() => {
                 setError('');
-            }, 5000);
+            }, 2000);
         } else {
             onSearch(values.search);
         }
+
     }
     const submitButtonClassName = `${!isValid ? "search__button search__button_disabled" : "search__button link"}`;
 
@@ -39,14 +36,19 @@ const SearchForm = ({ isLoading, onSearch, onClickCheckbox, isCheckboxOn }) => {
                     autoFocus={true}
                     onChange={handleChange}
                     required
-                    // value={values.search || ''}
+                    defaultValue={values.search || query}
+                    // value={query || ''}
                     disabled={isLoading}
                 />
                 <button type="submit" disabled={!isValid} className={submitButtonClassName} />
                 </fieldset>
                 {error && <span className="search__form_error">{error}</span>}
                 <div className="search__form_short">
-                <FilterCheckbox isCheckboxOn={isCheckboxOn} onClickCheckbox={onClickCheckbox}/>
+                <FilterCheckbox
+                    isCheckboxOnMovies={isCheckboxOnMovies}
+                    isCheckboxOnSavedMovies={isCheckboxOnSavedMovies}
+                    onClickCheckbox={onClickCheckbox}
+                />
                     <p className="search__form_text">Короткометражки</p>
                 </div>
             </form>

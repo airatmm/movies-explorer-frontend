@@ -7,34 +7,40 @@ const SavedMovies = (
     {
         loggedIn,
         movies,
-        loadingError,
+        badRequest,
         isLoading,
         onSavedClick,
         isMovieAddedToSave,
         onSearchSubmit,
         onClickCheckbox,
-        isCheckboxOn,
         isSearchedOnSaveMoviesPage,
-        searchMovies
+        searchMovies,
+        isCheckboxOnSavedMovies,
+        shortMovies
     }
     ) => {
+
+    const moviesChoice = isSearchedOnSaveMoviesPage ? searchMovies: movies;
 
     return (
         <Section name="movies-saved">
             <SearchForm
-                isCheckboxOn={isCheckboxOn}
                 onClickCheckbox={onClickCheckbox}
-                onSearch={onSearchSubmit}/>
+                onSearch={onSearchSubmit}
+                isCheckboxOnSavedMovies={isCheckboxOnSavedMovies}
+            />
+
 
             {isLoading && <Preloader />}
 
-            <div className="movies__error">{loadingError}</div>
+            <div className="movies__error">{badRequest}</div>
 
             <MoviesCardList
                 loggedIn={loggedIn}
-                movies={isSearchedOnSaveMoviesPage ? searchMovies: movies}
+                movies={isCheckboxOnSavedMovies ? shortMovies(moviesChoice) : moviesChoice}
                 isMovieAddedToSave={isMovieAddedToSave}
                 onSavedClick={onSavedClick}
+
             />
 
         </Section>

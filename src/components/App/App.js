@@ -30,20 +30,39 @@ const App = () => {
     const [errorLogin, setErrorLogin] = useState(''); // Сообщение ошибки логина
     const [errorRegister, setErrorRegister] = useState(''); // Сообщение ошибки регистрации
     const [messageProfile, setMessageProfile] = useState(''); // Сообщение редактирования профиля
-    const [loadingError, setLoadingError] = useState('') // Сообщение ошибки логина
+    const [loadingError, setLoadingError] = useState('') // Сообщение ошибки Movies
+    const [loadingErrorSaved, setLoadingErrorSaved] = useState('') // Сообщение ошибки SavedMovies
     const [allMovies, setAllMovies] = useState([]); // Список всех фильмов
     const [searchMovies, setSearchMovies] = useState([]); // Список выдачи результатов поиска
     const [savedMovies, setSavedMovies] = useState([]); // Список сохраненных фильмов
-    const [isCheckboxOn, setIsCheckboxOn] = useState(false); // Состояние чекбокса короткометражек
+    const [isCheckboxOnMovies, setIsCheckboxOnMovies] = useState(false); // Состояние чекбокса короткометражек Фильмы
+    const [isCheckboxOnSavedMovies, setIsCheckboxOnSavedMovies] = useState(false); // Состояние чекбокса короткометражек СохраненныеФильмы
     const [isSearchedOnSaveMoviesPage, setIsSearchedOnSaveMoviesPage] = useState(false); // Состояние производится ли поиск в сохраненных фильмах
     const [moviesOnSearchPage, setMoviesOnSearchPage] = useState([]); // Список фильмов при поиске в сохраненных фильмах
     const [query, setQuery] = useState(''); // Поисковая фраза
 
     const location = useLocation();
     const navigate = useNavigate(); // Предоставляет доступ к useNavigate, был UseHistory в v5 Router
+    const path = location.pathname;
+    const locationMovies = path === "/movies";
+    const isLocationSavedMovies = path === "/saved-movies";
+
+    // Клик на чекбокс короткометражек
+    const onClickCheckbox = () => {
+        locationMovies ?
+            setIsCheckboxOnMovies(!isCheckboxOnMovies)
+            : setIsCheckboxOnSavedMovies(!isCheckboxOnSavedMovies);
+    };
+
+
+    useEffect(() => {
+        setIsCheckboxOnSavedMovies(false);
+        setIsSearchedOnSaveMoviesPage(false);
+    }, [isLocationSavedMovies]);
+
 
     const handleLoggedIn = () => {
-        const path = location.pathname;
+
         setLoggedIn(true);
         if ((path === '/signin') || (path === '/signup')) {
             navigate("/movies", { replace: true });
@@ -140,10 +159,18 @@ const App = () => {
         localStorage.removeItem('savedMovies');
         localStorage.removeItem('isCheckboxOn');
         localStorage.removeItem('searchQuery');
+        localStorage.removeItem('isCheckboxOnMovies');
+        localStorage.removeItem('searchMovies');
         setAllMovies([]);
         setSearchMovies([]);
+        setSavedMovies([]);
+        setIsCheckboxOnSavedMovies([]);
+        setMoviesOnSearchPage([]);
         setLoadingError('')
+        setQuery('')
         setLoggedIn(false);
+        setIsCheckboxOnMovies(false);
+        setIsCheckboxOnMovies(false);
         navigate("/", { replace: true });
     }
 
@@ -202,6 +229,11 @@ const App = () => {
             } else {
                 getAllMoviesData();
             }
+            const searchMovies = JSON.parse(localStorage.getItem('searchMovies'));
+            if (searchMovies) {
+                setSearchMovies(searchMovies);
+                setLoadingError(false);
+            }
 
             const savedMoviesArr = JSON.parse(localStorage.getItem('savedMovies'));
             if (savedMoviesArr) {
@@ -209,9 +241,9 @@ const App = () => {
             } else {
                 getSavedMovies();
             }
-            const isCheckboxOn = JSON.parse(localStorage.getItem('isCheckboxOn'));
-            if (isCheckboxOn) {
-                setIsCheckboxOn(isCheckboxOn);
+            const isCheckboxOnMovies = JSON.parse(localStorage.getItem('isCheckboxOnMovies'));
+            if (isCheckboxOnMovies) {
+                setIsCheckboxOnMovies(isCheckboxOnMovies);
             }
 
             const searchQuery = JSON.parse(localStorage.getItem('searchQuery'));
@@ -256,10 +288,7 @@ const App = () => {
     // фильтр для короткометражек
     const shortMovies= (a) => a.filter((item) => item.duration <= SHORT_MOVIE);
 
-    // Клик на чекбокс короткометражек
-    const onClickCheckbox = () => {
-        setIsCheckboxOn(!isCheckboxOn);
-    };
+
 
     // Процесс поиска фильмов
     // regex - рег. выражение - искать все совпадения
@@ -268,31 +297,35 @@ const App = () => {
         if (searchQuery) {
             const regex = new RegExp(searchQuery, 'gi');
             const searchData = data.filter((item) => regex.test(item.nameRU) || regex.test(item.nameEN));
-            if (searchData.length === 0) {
-                setLoadingError(NOT_FOUND_ERROR);
-            } else {
-                setLoadingError('');
+            if (searchData) {
+                return searchData;
             }
-            return searchData;
+            return [];
         }
-        return [];
     };
 
     const handleSearch = (searchQuery) => {
         setIsLoading(true);
         setTimeout(() => {
             setQuery(searchQuery);
-            setSearchMovies(searchProcess(allMovies, searchQuery));
+            const searchData = searchProcess(allMovies, searchQuery);
+            if (searchData.length === 0) {
+            setLoadingError(NOT_FOUND_ERROR);
+            }
+            setSearchMovies(searchData);
             setIsLoading(false);
         }, 600);
     };
-
 
     // Поиск в сохраненных
     const handleInSavedSearch = (searchQuery) => {
         setIsLoading(true);
         setTimeout(() => {
-            setMoviesOnSearchPage(searchProcess(savedMovies, searchQuery));
+            const searchData = searchProcess(savedMovies, searchQuery);
+            if (searchData.length === 0) {
+                setLoadingErrorSaved(NOT_FOUND_ERROR);
+            }
+            setMoviesOnSearchPage(searchData);
             setIsSearchedOnSaveMoviesPage(true);
             setIsLoading(false);
         }, 600);
@@ -304,11 +337,14 @@ const App = () => {
 
     useEffect(() => {
         if (loggedIn ) {
+            localStorage.setItem('searchMovies', JSON.stringify(searchMovies));
+            localStorage.setItem('isCheckboxOnMovies', JSON.stringify(isCheckboxOnMovies));
             localStorage.setItem('searchQuery', JSON.stringify(query));
-            localStorage.setItem('isCheckboxOn', JSON.stringify(isCheckboxOn));
             localStorage.setItem('savedMovies', JSON.stringify(savedMovies));
         }
-    }, [loggedIn, query, isCheckboxOn, savedMovies]);
+    }, [loggedIn, query, isCheckboxOnMovies, searchMovies, savedMovies]);
+
+
 
     return (
          <CurrentUserContext.Provider value={currentUser}>
@@ -321,13 +357,15 @@ const App = () => {
                                 <Movies
                                     loggedIn={loggedIn}
                                     isLoading={isLoading}
-                                    movies={isCheckboxOn ? shortMovies(searchMovies) : searchMovies}
-                                    loadingError={loadingError}
+                                    movies={searchMovies}
+                                    shortMovies={shortMovies}
+                                    badRequest={loadingError}
                                     onSearchSubmit={handleSearch}
                                     onSavedClick={handleAddedMoviesToSaved}
                                     isMovieAddedToSave={isMovieAddedToSave}
                                     onClickCheckbox={onClickCheckbox}
-                                    isCheckboxOn={isCheckboxOn}
+                                    isCheckboxOnMovies={isCheckboxOnMovies}
+                                    query={query}
                                 />
                             </PrivateRoute>
                         } />
@@ -336,16 +374,16 @@ const App = () => {
                                 <SavedMovies
                                     loggedIn={loggedIn}
                                     isLoading={isLoading}
-                                    movies={isCheckboxOn ? shortMovies(savedMovies) : savedMovies}
-                                    searchMovies={isCheckboxOn ? shortMovies(moviesOnSearchPage) : moviesOnSearchPage}
+                                    movies={savedMovies}
+                                    searchMovies={moviesOnSearchPage}
+                                    shortMovies={shortMovies}
                                     isSearchedOnSaveMoviesPage={isSearchedOnSaveMoviesPage}
-                                    loadingError={loadingError}
+                                    badRequest={loadingErrorSaved}
                                     onSearchSubmit={handleInSavedSearch}
                                     onSavedClick={handleAddedMoviesToSaved}
                                     isMovieAddedToSave={isMovieAddedToSave}
                                     onClickCheckbox={onClickCheckbox}
-                                    isCheckboxOn={isCheckboxOn}
-
+                                    isCheckboxOnSavedMovies={isCheckboxOnSavedMovies}
                                 />
                             </PrivateRoute>
                         }/>

@@ -9,12 +9,14 @@ const Movies = (
             loggedIn,
             movies,
             onSearchSubmit,
-            loadingError,
+            badRequest,
             isLoading,
             onSavedClick,
             isMovieAddedToSave,
             onClickCheckbox,
-            isCheckboxOn
+            isCheckboxOnMovies,
+            shortMovies,
+            query
         }
     ) => {
 
@@ -22,21 +24,22 @@ const Movies = (
     return (
         <Section name="movies">
             <SearchForm
-                isCheckboxOn={isCheckboxOn}
                 onClickCheckbox={onClickCheckbox}
                 onSearch={onSearchSubmit}
+                isCheckboxOnMovies={isCheckboxOnMovies}
+                query={query}
             />
 
             {isLoading && <Preloader />}
-
+            <div className="movies__error">{badRequest}</div>
             <MoviesCardList
-                movies={movies}
+                movies={isCheckboxOnMovies ? shortMovies(movies) : movies}
                 isMovieAddedToSave={isMovieAddedToSave}
                 loggedIn={loggedIn}
                 onSavedClick={onSavedClick}
             />
 
-            <div className="movies__error">{loadingError}</div>
+
 
         </Section>
     )
