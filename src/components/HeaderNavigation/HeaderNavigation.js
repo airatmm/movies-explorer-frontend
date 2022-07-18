@@ -8,7 +8,7 @@ const HeaderNavigation = ({ loggedIn }) => {
 
     if (loggedIn) {
         return (
-            <Navigation name="header__navigation">
+            <Navigation name="header__navigation" loggedIn={loggedIn}>
                 <NavLink className={setActiveLink} to="/movies">Фильмы</NavLink>
                 <NavLink className={setActiveLink} to="/saved-movies">Сохранённые фильмы</NavLink>
             </Navigation>

@@ -9,7 +9,6 @@ const BurgerMenu = ({ isOpen, onClose }) => {
     return (
         <div className={`burger-menu ${isOpen ? 'burger-menu_is-open' : ''}`}>
             <div className="burger-menu_content">
-                {/*<Hamburger onClick={closeHandler}/>*/}
                 <div className="burger-menu__link-list">
                     <NavLink
                         to="/"

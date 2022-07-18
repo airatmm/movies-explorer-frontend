@@ -1,0 +1,36 @@
+.movie__button-save {
+    display: none;
+    position: absolute;
+    right: 14px;
+    top: 14px;
+    font-weight: 400;
+    font-size: 10px;
+    line-height: 0.9;
+    background: #F9F9F9;
+    border: none;
+    border-radius: 30px;
+    padding: 6px 7px;
+    z-index: 10;
+}
+
+@media (min-width: 320px) and (max-width: 767px) {
+    .movie__button-save {
+        right: 10px;
+        top: 10px;
+    }
+}
+
+.movie__button-save_active {
+    position: absolute;
+    right: 14px;
+    top: 14px;
+    width: 21px;
+    height: 21px;
+    border: none;
+    z-index: 10;
+    background: url(../../images/favorite-movie.svg) transparent no-repeat center;
+}
+
+.movie__button-save_active:hover {
+    background: url(../../images/favorite-movie-delete.svg) transparent no-repeat center;
+}

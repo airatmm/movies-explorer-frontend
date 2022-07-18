@@ -1,55 +1,66 @@
 import './MoviesCardList.css';
-import { useState, useEffect } from 'react';
-import getMovies from '../../utils/moviesApi';
 import MovieCard from '../MovieCard/MovieCard';
 import MoreButton from '../MoreButton/MoreButton';
-import Preloader from '../Preloader/Preloader'
+import { useLocation } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { DESKTOP, MIDDLE, MOBILE } from '../../utils/constants';
 
-const MoviesCardList = () => {
-    const [movies, setMovies] = useState([]);
-    const [isLoading, setIsLoading] = useState(false);
-    const [initialMovies, setInitialMovies] = useState(0);
-    const [moreMovies, setMoreMovies] = useState(0);
+const MoviesCardList = ({ movies, onSavedClick, isMovieAddedToSave }) => {
 
-    const handleMoreButtonClick = () => {
-        setInitialMovies(initialMovies + moreMovies);
-    }
+    const [width, setWidth] = useState(window.innerWidth);
+    const [moviesCount, setMoviesCount] = useState(0);
+    const [extraCount, setExtraCount] = useState(0);
+
+    const resMovies = movies.slice(0, moviesCount);
+
+    const location = useLocation();
+    const path = location.pathname;
+
+    const updateWidth = () => {
+        setTimeout(() => {
+            setWidth(window.innerWidth);
+        }, 500)
+    };
 
     useEffect(() => {
-        setIsLoading(true)
-        getMovies()
-            .then((movies) => {
-                setMovies(movies);
-                setInitialMovies(12);
-                setIsLoading(true)
-                setMoreMovies(6);
-                setIsLoading(false)
-                console.log("Movies loading OK!");
-            })
-            .catch((err) => console.log(`Ошибка загрузки данных с сервера (movies) ${err}`));
+        window.addEventListener('resize', updateWidth);
+        if(width >= DESKTOP) {
+            setMoviesCount(12);
+            setExtraCount(3);
+        }
+        if(width >= MIDDLE && width < DESKTOP) {
+            setMoviesCount(8);
+            setExtraCount(2);
+        }
+        if(width >= MOBILE && width < MIDDLE) {
+            setMoviesCount(5);
+            setExtraCount(2);
+        }
+        if (path === "/saved-movies") {
+            setMoviesCount(100)
+        }
+        return () => window.removeEventListener('resize', updateWidth)
+    }, [width, path]);
 
-    }, []);
+    const handleMoreButtonClick = () => {
+        setMoviesCount(moviesCount + extraCount);
+    }
 
     return (
         <>
-            {isLoading ? (<Preloader />) :
-            (
-                <>
-                <ul className="movies__list">
-                {movies.slice(0, initialMovies).map((movie, id) => (
-                    <MovieCard
-                        key={id}
-                        movie={movie}
-                    />
-                ))}
-            </ul>
-                <MoreButton
-                    movies={movies}
-                    handleMoreButtonClick={handleMoreButtonClick}
+            <ul className="movies__list">
+            {resMovies.map((movie, id) => (
+                <MovieCard
+                    key={id}
+                    movie={movie}
+                    onSavedClick={onSavedClick}
+                    isMovieAddedToSave={isMovieAddedToSave}
                 />
-                </>
-            )
-            }
+            ))}
+            </ul>
+
+            {path === "/saved-movies" ? "" : moviesCount < movies.length && <MoreButton onClick={handleMoreButtonClick} />}
+
         </>
     )
 }

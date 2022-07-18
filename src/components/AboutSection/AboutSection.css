@@ -23,8 +23,7 @@
 
 .about-section__title {
     font-size: 22px;
-    line-height: 27px; /*1,227*/
-    /* identical to box height */
+    line-height: 27px;
     font-weight: 400;
     letter-spacing: -0.04em;
     border-bottom: 1px solid #000;

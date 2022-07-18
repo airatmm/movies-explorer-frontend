@@ -1,15 +1,46 @@
 import './Movies.css';
-// import Preloader from '../Preloader/Preloader';
 import SearchForm from '../SearchForm/SearchForm';
 import MoviesCardList from "../MoviesCardList/MoviesCardList";
 import Section from "../Section/Section";
+import Preloader from "../Preloader/Preloader";
+
+const Movies = (
+        {
+            loggedIn,
+            movies,
+            onSearchSubmit,
+            badRequest,
+            isLoading,
+            onSavedClick,
+            isMovieAddedToSave,
+            onClickCheckbox,
+            isCheckboxOnMovies,
+            shortMovies,
+            query
+        }
+    ) => {
 
 
-const Movies = () => {
     return (
         <Section name="movies">
-            <SearchForm />
-            <MoviesCardList />
+            <SearchForm
+                onClickCheckbox={onClickCheckbox}
+                onSearch={onSearchSubmit}
+                isCheckboxOnMovies={isCheckboxOnMovies}
+                query={query}
+            />
+
+            {isLoading && <Preloader />}
+            <div className="movies__error">{badRequest}</div>
+            <MoviesCardList
+                movies={isCheckboxOnMovies ? shortMovies(movies) : movies}
+                isMovieAddedToSave={isMovieAddedToSave}
+                loggedIn={loggedIn}
+                onSavedClick={onSavedClick}
+            />
+
+
+
         </Section>
     )
 }
